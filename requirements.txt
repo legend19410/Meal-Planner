@@ -8,7 +8,6 @@ Flask==1.1.2
 Flask-Login==0.5.0
 Flask-Migrate==2.6.0
 Flask-Script==2.0.6
-Flask-SQLAlchemy==2.4.4
 Flask-WTF==0.14.3
 gunicorn==20.0.4
 idna==3.1
@@ -21,6 +20,8 @@ Mako==1.1.4
 MarkupSafe==1.1.1
 mccabe==0.6.1
 mysql-connector-python==8.0.23
+numpy==1.20.1 
+pandas==1.2.3
 pkg-resources==0.0.0
 pylint==2.6.0
 python-dateutil==2.8.0
