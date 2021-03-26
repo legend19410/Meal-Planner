@@ -8,4 +8,4 @@ class Config(object):
     MYSQL_USER = os.environ.get('MYSQL_USER') or 'root'
     MYSQL_PASSWORD = os.environ.get('MYSQL_PASSWORD') or  ''
     MYSQL_DB = os.environ.get('MYSQL_DB') or 'meal_planner'
-    MYSQL_CURSORCLASS = os.environ.get('MYSQL_CURSORCLASS') or 'DictCursor'
+    MYSQL_CURSORCLASS = 'DictCursor'

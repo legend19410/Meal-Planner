@@ -30,7 +30,7 @@ CREATE TABLE Instruction(
     description VARCHAR(200),
 
     PRIMARY KEY (recipe_id, step),
-    FOREIGN KEY(recipe_id) REFERENCES Recipe(recipe_id) ON DELETE CASCADE
+    FOREIGN KEY(recipe_id) REFERENCES Recipe(recipe_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE Food_Item(
