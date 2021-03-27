@@ -1,1 +1,6 @@
 RAW_recipes.csv
+.idea
+__pycache__
+meal_planner.sql
+.venv
+venv

@@ -15,17 +15,21 @@ class DBPopulate:
 
     def insertUnits(self, unitsList):
         for unit in unitsList:
-            self.cur.execute('''INSERT INTO Measurement (units) VALUES('{}')'''.format(unit))
+            self.cur.execute('''INSERT INTO Measurement (units,type) VALUES('{}','{}')'''.format(unit[0],unit[1]))
             self.mysql.connection.commit()
 
-    def insertRecipe(self, recipeName, userMarker):
+    def insertRecipe(self, recipeId, recipeName, userMarker):
         '''create recipe with id and name'''
-        self.cur.execute('''INSERT INTO recipe (recipe_name,added_by) VALUES('{}',{})'''. \
-                    format(recipeName,userMarker))
+        self.cur.execute('''INSERT INTO recipe (recipe_id,recipe_name,added_by) VALUES({},'{}',{})'''. \
+                    format(recipeId,recipeName,userMarker))
         self.mysql.connection.commit()
 
     def getRecipeByName(self, recipeName):
         self.cur.execute('''SELECT * FROM Recipe WHERE recipe_name='{}' '''.format(recipeName))
+        return self.cur.fetchone()
+
+    def getRecipeById(self, recipeId):
+        self.cur.execute('''SELECT * FROM Recipe WHERE recipe_id={} '''.format(recipeId))
         return self.cur.fetchone()
 
     def insertInstruction(self,recipeId, step,instruction):
@@ -38,14 +42,14 @@ class DBPopulate:
         return self.cur.fetchone()
 
 
-    def insertFood(self,food, colaries):
-        self.cur.execute('''INSERT INTO Food_Item (food_name, calories_per_unit) VALUES('{}',{}) '''. \
-                    format(food, colaries))
+    def insertFood(self,food, colariesPerGram, colariesPerMl):
+        self.cur.execute('''INSERT INTO Food_Item (food_name, calories_per_g, calories_per_ml) VALUES('{}',{},{}) '''. \
+                    format(food, colariesPerGram, colariesPerMl))
         self.mysql.connection.commit()
 
-    def insertIngredInRecipe(self,foodId,recipeId, quantity,total_calories,units):
-        self.cur.execute('''INSERT INTO Ingredients_In_Recipes (food_id,recipe_id,quantity,total_calories,units) \
-                               VALUES({},{},{},{},'{}') '''.format(foodId,recipeId,quantity,total_calories,units))
+    def insertIngredInRecipe(self,foodId,recipeId, quantity,units):
+        self.cur.execute('''INSERT INTO Ingredients_In_Recipes (food_id,recipe_id,quantity,units) 
+                               VALUES({},{},{},'{}') '''.format(foodId,recipeId,quantity,units))
         self.mysql.connection.commit()
 
 

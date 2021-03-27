@@ -2,6 +2,7 @@ import random
 from faker import Faker
 import pandas as pd
 import re
+import mysql.connector
 
 
 class PopulateDatabase:
@@ -70,10 +71,11 @@ class PopulateDatabase:
                     self.dbPopulate.insertFood(ingredient, self.ran(1,13), self.ran(1,13))
                     food = self.dbPopulate.getFoodByName(ingredient)
                     quantity = self.ran(1, 15)
-                    self.dbPopulate.insertIngredInRecipe(int(food['food_id']),recipeId,quantity,self.getRandMea(self.units))
+                    self.dbPopulate.insertIngredInRecipe(int(food[0]),recipeId,quantity,self.getRandMea(self.units))
                 else:
                     quantity = self.ran(1, 15)
-                    self.dbPopulate.insertIngredInRecipe(int(ingred['food_id']), recipeId, quantity, self.getRandMea(self.units))
+                    print(self.getRandMea(self.units))
+                    self.dbPopulate.insertIngredInRecipe(int(ingred[0]), recipeId, quantity, self.getRandMea(self.units))
 
             # count = count + 1
             # if count > 1:
@@ -108,3 +110,79 @@ class PopulateDatabase:
 
     def removeDuplicates(self, lst):
          return list(dict.fromkeys(lst))
+
+
+class DBPopulate:
+
+    def __init__(self, mysql):
+        self.mysql = mysql
+        self.cur = mysql.cursor()
+
+    def insertUser(self, firstName, lastName, email, password, address):
+        self.cur.execute('''INSERT INTO `User` (first_name, last_name, email, password, address) \
+                VALUES('{}','{}','{}','{}','{}')'''.format(firstName, lastName, email, password, address))
+        self.mysql.commit()
+
+    def insertUnits(self, unitsList):
+        for unit in unitsList:
+            self.cur.execute('''INSERT INTO Measurement (units,type) VALUES('{}','{}')'''.format(unit[0], unit[1]))
+            self.mysql.commit()
+
+    def insertRecipe(self, recipeId, recipeName, userMarker):
+        '''create recipe with id and name'''
+        self.cur.execute('''INSERT INTO recipe (recipe_id,recipe_name,added_by) VALUES({},'{}',{})'''. \
+                         format(recipeId, recipeName, userMarker))
+        self.mysql.commit()
+
+    def getRecipeByName(self, recipeName):
+        self.cur.execute('''SELECT * FROM Recipe WHERE recipe_name='{}' '''.format(recipeName))
+        return self.cur.fetchone()
+
+    def getRecipeById(self, recipeId):
+        self.cur.execute('''SELECT * FROM Recipe WHERE recipe_id={} '''.format(recipeId))
+        return self.cur.fetchone()
+
+    def insertInstruction(self, recipeId, step, instruction):
+        self.cur.execute('''INSERT INTO instruction (recipe_id,step,description) VALUES({},{},'{}')'''. \
+                         format(recipeId, step, instruction))
+        self.mysql.commit()
+
+    def getFoodByName(self, name):
+        self.cur.execute('''SELECT * FROM Food_Item WHERE food_name='{}' '''.format(name))
+        return self.cur.fetchone()
+
+    def insertFood(self, food, colariesPerGram, colariesPerMl):
+        self.cur.execute('''INSERT INTO Food_Item (food_name, calories_per_g, calories_per_ml) VALUES('{}',{},{}) '''. \
+                         format(food, colariesPerGram, colariesPerMl))
+        self.mysql.commit()
+
+    def insertIngredInRecipe(self, foodId, recipeId, quantity, units):
+        self.cur.execute('''INSERT INTO Ingredients_In_Recipes (food_id,recipe_id,quantity,units) 
+                               VALUES({},{},{},'{}') '''.format(foodId, recipeId, quantity, units))
+        self.mysql.commit()
+
+
+if __name__ =='__main__':
+
+
+    try:
+        connection = mysql.connector.connect(host='localhost',
+                                             database='meal_planner',
+                                             user='root',
+                                             password='')
+        popRec = PopulateDatabase(DBPopulate(connection))
+        popRec.populateRecipes()
+
+        # cursor = connection.cursor()
+        # cursor.execute(mySql_insert_query)
+        # connection.commit()
+        # print(cursor.rowcount, "Record inserted successfully into Laptop table")
+        connection.cursor().close()
+
+    except mysql.connector.Error as error:
+        print("Failed to insert record into Laptop table {}".format(error))
+
+    finally:
+        if connection.is_connected():
+            connection.close()
+            print("MySQL connection is closed")

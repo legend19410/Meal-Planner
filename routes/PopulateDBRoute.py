@@ -1,9 +1,9 @@
 from flask import Blueprint
-
-populate_db = Blueprint("populate_db", __name__)
-from app import mysql
+from extension import mysql
 from system_functions.Populate import PopulateDatabase
 from database.DBPopulate import DBPopulate
+
+populate_db = Blueprint("populate_db", __name__)
 
 
 @populate_db.route('/populate_users')
