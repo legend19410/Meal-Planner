@@ -96,3 +96,9 @@ class PopulateDatabase:
 
     def ran(self,lbount, ubound):
         return round(random.uniform(lbount, ubound), 1)
+    
+    def start_conn(self):
+        self.dbPopulate.start_conn()
+    
+    def close_conn(self):
+        self.dbPopulate.close_conn()
