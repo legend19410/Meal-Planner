@@ -1,6 +1,25 @@
-{% extends "base.html" %} 
+{% extends "base.html" %} {% block content %}
 
-{% block content %}
-
+<div class="home">
+  <div id="searchBar">
+    <h1>Search Recipe</h1>
+    <input id="search-bar" placeholder="Search" type="search" />
+    <button type="submit" class="btn btn-secondary" id="submit">Search</button>
+  </div>
+  <br />
+  <div class="button1">
+    <a href="{{ url_for('add_recipe')}}"
+      ><button type="submit" class="btn btn-secondary" id="submit">
+        Add Recipe
+      </button></a
+    >
+  </div>
+  <br />
+  <div class="button2">
+    <button type="submit" class="btn btn-secondary" id="submit">
+      <a href="{{ url_for('create') }}">Create Meal Plan</a>
+    </button>
+  </div>
+</div>
 
 {% endblock %}
