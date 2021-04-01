@@ -1,9 +1,10 @@
-class DBQuery:
+from .DB import DB
+
+class DBQuery(DB):
 
     def __init__(self, mysql):
-
+        super(DBQuery,self).__init__(DB)
         self.mysql = mysql
-        self.cur = mysql.connection.cursor()
 
     def getAllMeasurments(self):
         self.cur.execute('''SELECT * FROM Measurement''')

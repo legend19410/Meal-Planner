@@ -43,6 +43,6 @@ def add_recipe():
 def create():
     return render_template("create_mplan.html")
 
-@app.route('/')
-def index():
-    return "HOME"
+# @app.route('/')
+# def index():
+#     return "HOME"
