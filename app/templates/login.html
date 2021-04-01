@@ -1,0 +1,39 @@
+{% extends "base.html" %} {% block content %}
+<div class="login">
+  <div class="login-screen">
+    <div class="app-title">
+      <h1>Login</h1>
+    </div>
+
+    <div class="login-form">
+      <div class="control-group">
+        <input
+          type="text"
+          class="login-field"
+          value=""
+          placeholder="Email"
+          id="login-name"
+        />
+        <label class="" for="login-name"></label>
+      </div>
+
+      <div class="control-group">
+        <input
+          type="password"
+          class="login-field"
+          value=""
+          placeholder="Password"
+          id="login-pass"
+        />
+        <label class="" for="login-pass"></label>
+      </div>
+
+      <div class="btns">
+        <a class="btn" href="{{ url_for('login') }}">Login</a>
+        <a class="btn" href="{{ url_for('signup') }}">Sign up</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
