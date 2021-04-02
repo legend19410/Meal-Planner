@@ -1,5 +1,5 @@
 from flask import Blueprint, Flask, render_template, request, redirect, flash, url_for, session
-from flask_login import login_user, logout_user, current_user, login_required
+from flask_login import UserMixin, login_user, logout_user, current_user, login_required
 
 #app imports
 from app import app, login_manager
@@ -16,34 +16,38 @@ def index():
 
 @user.route('/sign-up')
 def signup():
-    return render_template("sign_up.html")
+    if current_user.is_authenticated:
+        return redirect(url_for('user.index'))
+    
+    form = SignupForm()
+    return render_template("sign_up.html", form=form)
 
 @user.route('/login', methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('secure_page'))
+        return redirect(url_for('user.index'))
     
     form = LoginForm()
     if request.method == "POST" and form.validate_on_submit():
-        username = form.username.data
+        email = form.email.data
         password = form.password.data
 
-        if username and password:
-            user = query_database.getUser(username)
-
-            if (user is not None) and (password == user.password):
+        if email and password:
+            user = User(query_database.getUser(email=email))
+            # print(user)
+            if (user is not None) and (password == user.get_password()):
                 remember_me = False
 
                 if 'remember_me' in request.form:
                     remember_me = True
                 
                 # get user id, load into session
-                login_user(user,remember=remember_me)
+                login_user(user, remember=remember_me)
 
                 # flash a message to the user
                 flash('Logged in successfully.', 'success')
                 
-                return redirect(url_for("create")) 
+                return redirect(url_for("user.create_mplan")) 
         else:
             flash('Username or Password is incorrect.','danger')
     
@@ -63,9 +67,9 @@ def add_recipe():
     return render_template("input_recipe.html")
 
 
-@user.route('/create-plan')
+@user.route('/create-mplan')
 @login_required
-def create():
+def create_mplan():
     return render_template("create_mplan.html")
 
 
@@ -86,14 +90,14 @@ def kitchen():
 def logout():
     logout_user()
     flash('You have been logged out.', 'danger')
-    return redirect(url_for('home'))
+    return redirect(url_for('user.login'))
 
 
 # user_loader callback. This callback is used to reload the user object from
 # the user ID stored in the session
 @login_manager.user_loader
 def load_user(id):
-    return query_database.getUser(username).id
+    return User(query_database.getUser(id=id))
 
 
 def flash_errors(form):
@@ -104,6 +108,20 @@ def flash_errors(form):
                 error
             ), 'danger')
 
+
+#Wrapper User Class for user dict to use for flask login manager
+class User(UserMixin):
+    def __init__(self, user_dict):
+        self.user_dict = user_dict
+
+    # Overriding get_id is required if you don't have the id property
+    # Check the source code for UserMixin for details
+    def get_id(self):
+        object_id = self.user_dict['user_id']
+        return str(object_id)
+    
+    def get_password(self):
+        return self.user_dict['password']
 
 ###
 # The functions below should be applicable to all Flask apps.

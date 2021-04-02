@@ -13,10 +13,10 @@ class DBQuery(DB):
         self._close_conn()
         return measurements
     
-    def getUser(self, username):
+    def getUser(self, id, email):
         self._start_conn()
-        query = '''SELECT * FROM user WHERE username={}'''.format(username)
-        self.cur.execute(query)
+        query = "SELECT * FROM user WHERE email=%(email)s or user_id=%(id)s"
+        self.cur.execute(query, {'email':email, 'id':id})
         user = self.cur.fetchone()
         self._close_conn()
         return user
