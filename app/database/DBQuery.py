@@ -7,5 +7,16 @@ class DBQuery(DB):
         self.mysql = mysql
 
     def getAllMeasurments(self):
-        self.cur.execute('''SELECT * FROM Measurement''')
-        return self.cur.fetchall()
+        self._start_conn()
+        self.cur.execute('''SELECT * FROM measurement''')
+        measurements = self.cur.fetchall()
+        self._close_conn()
+        return measurements
+    
+    def getUser(self, username):
+        self._start_conn()
+        query = '''SELECT * FROM user WHERE username={}'''.format(username)
+        self.cur.execute(query)
+        user = self.cur.fetchone()
+        self._close_conn()
+        return user

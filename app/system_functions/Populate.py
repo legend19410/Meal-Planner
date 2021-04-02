@@ -8,7 +8,7 @@ class PopulateDatabase:
 
     def __init__(self, dbPopulate):
         self.dbPopulate = dbPopulate
-        self.NUMBER_OF_USERS = 200000
+        self.NUMBER_OF_USERS = 100
         self.units = [('gill','volume'),('teaspoon','volume'), ('tablespoon','volume'), ('ounce','mass'), ('cup','volume'),\
                         ('pint','volume'), ('quart','volume'), ('gallon','volume'), \
                         ('ml','volume'), ('litre','volume'), ('lb','mass'),('mg','mass'), ('g','mass'),('dl','mass')]
@@ -34,7 +34,7 @@ class PopulateDatabase:
 
         '''read the recipes from the csv file into a dataframe'''
         recipes = pd.read_csv('./RAW_recipes.csv')
-        # count = 1
+        count = 1
 
         for recipe in recipes.index:
             # count = count + 1
@@ -75,9 +75,9 @@ class PopulateDatabase:
                     quantity = self.ran(1, 15)
                     self.dbPopulate.insertIngredInRecipe(int(ingred['food_id']), recipeId, quantity, self.getRandMea(self.units))
 
-            # count = count + 1
-            # if count > 1:
-            #     break
+            count = count + 1
+            if count > 25:
+                break
 
     def convertToList(self, string):
         return string.strip('][').split(', ')
@@ -105,12 +105,6 @@ class PopulateDatabase:
 
     def ran(self,lbount, ubound):
         return round(random.uniform(lbount, ubound), 1)
-    
-    def start_conn(self):
-        self.dbPopulate.start_conn()
-    
-    def close_conn(self):
-        self.dbPopulate.close_conn()
 
     def removeDuplicates(self, lst):
          return list(dict.fromkeys(lst))

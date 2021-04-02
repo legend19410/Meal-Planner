@@ -6,3 +6,5 @@ class Query:
     def getAllMeasurements(self):
         return self.dbQuery.getAllMeasurments()
 
+    def getUser(self,username):
+        return self.dbQuery.getUser(username)

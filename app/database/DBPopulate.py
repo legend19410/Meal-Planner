@@ -7,65 +7,69 @@ class DBPopulate(DB):
         self.mysql = mysql
 
     def insertUser(self, firstName,lastName,email,password,address):
-        # conn, cur = self.__start_conn()
+        self._start_conn()
 
-        self.cur.execute('''INSERT INTO User (first_name, last_name, email, password, address) \
+        self.cur.execute('''INSERT INTO user (first_name, last_name, email, password, address) \
                 VALUES('{}','{}','{}','{}','{}')'''.format(firstName, lastName, email, password, address))
         
-        # self.__close_conn(conn, cur)
+        self._close_conn()
 
     def insertUnits(self, unitsList):
-        # conn, cur = self.__start_conn()
+        self._start_conn()
 
         for unit in unitsList:
-            self.cur.execute('''INSERT INTO Measurement (units) VALUES('{}','{}')'''.format(unit[0],unit[1]))
+            self.cur.execute('''INSERT INTO measurement (units,type) VALUES('{}','{}')'''.format(unit[0],unit[1]))
         
-        # self.__close_conn(conn, cur)
+        self._close_conn()
 
     def insertRecipe(self, recipeId, recipeName, userMarker):
-        # conn, cur = self.__start_conn()
+        self._start_conn()
 
         '''create recipe with id and name'''
-        self.cur.execute('''INSERT INTO Recipe (recipe_name,added_by) VALUES({},'{}',{})'''. \
-                    format(recipeId, recipeName,userMarker))
+        self.cur.execute('''INSERT INTO recipe (recipe_id,recipe_name,added_by) VALUES({},'{}',{})'''.format(recipeId, recipeName,userMarker))
         
-        # self.__close_conn(conn, cur)
+        self._close_conn()
 
     def getRecipeByName(self, recipeName):
-        # conn, cur = self.__start_conn()
+        self._start_conn()
 
-        self.cur.execute('''SELECT * FROM Recipe WHERE recipe_name='{}' '''.format(recipeName))
+        self.cur.execute('''SELECT * FROM recipe WHERE recipe_name='{}' '''.format(recipeName))
         recipe = self.cur.fetchone()
-        # self.__close_conn(conn, cur)
+        self._close_conn()
         return recipe
 
     def getRecipeById(self, recipeId):
-        self.cur.execute('''SELECT * FROM Recipe WHERE recipe_id={} '''.format(recipeId))
-        return self.cur.fetchone()
+        self._start_conn()
+        self.cur.execute('''SELECT * FROM recipe WHERE recipe_id={} '''.format(recipeId))
+        recipe = self.cur.fetchone()
+        self._close_conn()
+        return recipe 
 
     def insertInstruction(self,recipeId, step,instruction):
-        # conn, cur = self.__start_conn()
+        self._start_conn()
 
-        self.cur.execute('''INSERT INTO Instruction (recipe_id,step,description) VALUES({},{},'{}')'''. \
+        self.cur.execute('''INSERT INTO instruction (recipe_id,step,description) VALUES({},{},'{}')'''. \
                     format(recipeId, step, instruction))
         
-        # self.__close_conn(conn, cur)
+        self._close_conn()
 
     def getFoodByName(self,name):
-        # conn, cur = self.__start_conn()
+        self._start_conn()
 
-        self.cur.execute('''SELECT * FROM Food_Item WHERE food_name='{}' '''.format(name))
+        self.cur.execute('''SELECT * FROM food_item WHERE food_name='{}' '''.format(name))
         food = self.cur.fetchone()
-        # self.__close_conn(conn, cur)
+        self._close_conn()
         return food
 
     def insertFood(self,food, colariesPerGram, colariesPerMl):
-        self.cur.execute('''INSERT INTO Food_Item (food_name, calories_per_g, calories_per_ml) VALUES('{}',{},{}) '''. \
+        self._start_conn()
+        self.cur.execute('''INSERT INTO food_item (food_name, calories_per_g, calories_per_ml) VALUES('{}',{},{}) '''. \
                     format(food, colariesPerGram, colariesPerMl))
-        
+        self._close_conn()
 
     def insertIngredInRecipe(self,foodId,recipeId, quantity,units):
-        self.cur.execute('''INSERT INTO Ingredients_In_Recipes (food_id,recipe_id,quantity,units) 
+        self._start_conn()
+        self.cur.execute('''INSERT INTO ingredients_in_recipes (food_id,recipe_id,quantity,units) 
                                VALUES({},{},{},'{}') '''.format(foodId,recipeId,quantity,units))
-    
+        self._close_conn()
 

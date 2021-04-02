@@ -4,9 +4,9 @@ class DB:
     def __init__(self, mysql):
         self.mysql = mysql
 
-    def start_conn(self):
+    def _start_conn(self):
         try:
-            print(self.mysql.pool_size)
+            # print(self.mysql.pool_size)
             self.conn = self.mysql.get_connection()
             self.cur = self.conn.cursor(dictionary=True)
         except errors.PoolError as e:
@@ -15,7 +15,7 @@ class DB:
             print('Closing  connection ')
 
 
-    def close_conn(self):
+    def _close_conn(self):
         self.conn.commit()
         self.cur.close()
         self.conn.close()

@@ -15,13 +15,29 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a
-            class="nav-link active"
-            aria-current="page"
-            href="{{ url_for('test_app.index') }}"
-            >Home</a
-          >
+          <a class="nav-link active" aria-current="page" href="{{ url_for('user.index') }}">Home</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{{ url_for('user.add_recipe') }}">Add Recipe</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{{ url_for('user.grocery') }}">Grocery</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{{ url_for('user.kitchen') }}">Kithcen</a>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav">
+        {% if current_user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('user.logout') }}">Logout</a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('user.login') }}">Login</a>
+          </li>
+        {% endif %}
       </ul>
     </div>
   </div>

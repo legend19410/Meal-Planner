@@ -9,7 +9,7 @@ class PopulateDatabase:
 
     def __init__(self, dbPopulate):
         self.dbPopulate = dbPopulate
-        self.NUMBER_OF_USERS = 200000
+        self.NUMBER_OF_USERS = 20
         self.units = [('gill','volume'),('teaspoon','volume'), ('tablespoon','volume'), ('ounce','mass'), ('cup','volume'),\
                         ('pint','volume'), ('quart','volume'), ('gallon','volume'), \
                         ('ml','volume'), ('litre','volume'), ('lb','mass'),('mg','mass'), ('g','mass'),('dl','mass')]

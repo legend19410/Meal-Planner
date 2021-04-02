@@ -1,38 +1,32 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} 
+
+{% block content %}
 <div class="login">
   <div class="login-screen">
     <div class="app-title">
       <h1>Login</h1>
     </div>
+    {% include 'flash_messages.html' %}
 
-    <div class="login-form">
-      <div class="control-group">
-        <input
-          type="text"
-          class="login-field"
-          value=""
-          placeholder="Email"
-          id="login-name"
-        />
-        <label class="" for="login-name"></label>
+    <form action="{{ url_for('user.login') }}" method="post">
+      {{ form.csrf_token }}
+      
+      <div class="mb-3 control-group">
+        {{ form.username.label(class="form-label") }}
+        {{ form.username(**{"class":"form-control login-field", "id":"login-name", "type":"email", "placeholder":"Enter your username", "aria-describedby":"emailHelp"}) }}
+        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
       </div>
 
-      <div class="control-group">
-        <input
-          type="password"
-          class="login-field"
-          value=""
-          placeholder="Password"
-          id="login-pass"
-        />
-        <label class="" for="login-pass"></label>
+      <div class="mb-3 control-group">
+        {{ form.password.label(class="form-label") }}
+        {{ form.password(**{'class':'form-control login-field', 'placeholder':"Password", 'id':"login-pass", 'placeholder':"Password"}) }}
       </div>
 
       <div class="btns">
-        <a class="btn" href="{{ url_for('test_app.login') }}">Login</a>
-        <a class="btn" href="{{ url_for('test_app.signup') }}">Sign up</a>
+        <button type="submit" name="submit" class="btn btn-primary btn-block">Log in</button>
+        <a class="btn" href="{{ url_for('user.signup') }}">Sign up</a>
       </div>
-    </div>
+    </form>
   </div>
 </div>
 
