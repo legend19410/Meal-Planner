@@ -8,7 +8,7 @@ class DB:
         try:
             # print(self.mysql.pool_size)
             self.conn = self.mysql.get_connection()
-            self.cur = self.conn.cursor(dictionary=True)
+            self.cur = self.conn.cursor(dictionary=True, buffered=True)
         except errors.PoolError as e:
         # connection pool exhausted, so we can't fetch 4th connection
             print(e)
@@ -17,5 +17,8 @@ class DB:
 
     def _close_conn(self):
         self.conn.commit()
-        self.cur.close()
-        self.conn.close()
+        try:
+            self.cur.close()
+            self.conn.close()
+        except:
+            print("Exception here")

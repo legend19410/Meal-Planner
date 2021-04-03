@@ -4,7 +4,6 @@ from flask_login import LoginManager
 from .config import Config, dbconfig
 from mysql.connector import pooling
 
-
 app = Flask(__name__)
 app.config.from_object(Config)
 
