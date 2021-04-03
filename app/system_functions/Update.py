@@ -10,3 +10,10 @@ class Update:
         #add recipe to db
         #self.dbUpdate.insertRecipe()
         pass
+
+    def insertIngredients(self):
+        foodId = 300
+        recipeId = 38
+        units = 'cup'
+        quantity = 2.0
+        self.dbUpdate.insertIngredients(foodId, recipeId,units,quantity)
