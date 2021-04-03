@@ -14,13 +14,33 @@ user = Blueprint("user", __name__)
 def index():
     return render_template("index.html")
 
-@user.route('/sign-up')
+@user.route('/sign-up',methods=["GET", "POST"])
 def signup():
     if current_user.is_authenticated:
         return redirect(url_for('user.index'))
     
     form = SignupForm()
+    if request.method == "POST" and form.validate_on_submit():
+        fname = form.fname.data
+        lname = form.lname.data
+        email = form.email.data
+        password = form.password.data
+        rpassword = form.rpassword.data
+
+        if password == rpassword:
+
+            result = populate_database.insertUser({'fname':fname, 'lname':lname,\
+                                                'email':email,'password':password})
+            if result:
+                # flash a message to the user
+                flash('Sign up successful.', 'success')
+                return redirect(url_for("user.login")) 
+            else:
+                flash('Email address is already associated with an account','danger')
+        else:
+            flash('Passwords does not match','danger')
     return render_template("sign_up.html", form=form)
+
 
 @user.route('/login', methods=["GET", "POST"])
 def login():
@@ -121,6 +141,7 @@ class User(UserMixin):
         return str(object_id)
     
     def get_password(self):
+        print(self.user_dict)
         return self.user_dict['password']
 
 ###

@@ -108,3 +108,7 @@ class PopulateDatabase:
 
     def removeDuplicates(self, lst):
          return list(dict.fromkeys(lst))
+
+    
+    def insertUser(self,data):
+        return self.dbPopulate.insertUser(data)

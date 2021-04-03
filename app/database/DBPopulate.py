@@ -1,4 +1,5 @@
 from .DB import DB
+from mysql.connector import errors
 
 class DBPopulate(DB):
 
@@ -6,13 +7,18 @@ class DBPopulate(DB):
         super(DBPopulate,self).__init__(DB)
         self.mysql = mysql
 
-    def insertUser(self, firstName,lastName,email,password,address):
+    def insertUser(self, data):
         self._start_conn()
-
-        self.cur.execute('''INSERT INTO user (first_name, last_name, email, password, address) \
-                VALUES('{}','{}','{}','{}','{}')'''.format(firstName, lastName, email, password, address))
-        
-        self._close_conn()
+        query = '''INSERT INTO user (first_name, last_name, email, password) \
+                VALUES('{fname}','{lname}','{email}','{password}')'''
+        try:
+            self.cur.execute(query,data)
+            result = True
+        except errors.IntegrityError:
+            result =  False
+        finally:
+            return result
+            self._close_conn()
 
     def insertUnits(self, unitsList):
         self._start_conn()

@@ -9,7 +9,8 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[InputRequired()])
 
 class SignupForm(FlaskForm):
-    username = StringField('Username', validators=[InputRequired()])
+    fname = StringField('First Name', validators=[InputRequired()])
+    lname = StringField('Last Name', validators=[InputRequired()])
     email = StringField('Email', validators=[InputRequired(),Email()])
     password = PasswordField('Password', validators=[InputRequired()])
     rpassword = PasswordField('Reapeat Password', validators=[InputRequired()])

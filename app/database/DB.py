@@ -10,7 +10,7 @@ class DB:
             self.conn = self.mysql.get_connection()
             self.cur = self.conn.cursor(dictionary=True, buffered=True)
         except errors.PoolError as e:
-        # connection pool exhausted, so we can't fetch 4th connection
+
             print(e)
             print('Closing  connection ')
 

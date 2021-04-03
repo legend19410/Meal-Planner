@@ -28,15 +28,15 @@ body {
   color: #777;
 }
 
-.login-form {
+/* .login-form {
   text-align: center;
-}
+} */
 .control-group {
   margin-bottom: 10px;
 }
 
 input {
-  text-align: center;
+  /* text-align: center; */
   background-color: #ecf0f1;
   border: 2px solid transparent;
   border-radius: 3px;
@@ -65,6 +65,20 @@ input:focus {
 
 .btn:hover {
   background-color: #2980b9;
+}
+
+.login-btn{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.signup-link{
+  display: block;
+  color:#777;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /*----------------DISPLAY RECIPE PAGE-------------------*/

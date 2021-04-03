@@ -12,6 +12,16 @@
       {{ form.csrf_token }}
 
       <div class="mb-3 control-group">
+        {{ form.fname.label(class="form-label") }}
+        {{ form.fname(**{"class":"form-control login-field", "placeholder":"Enter first name"}) }}
+      </div>
+
+      <div class="mb-3 control-group">
+        {{ form.lname.label(class="form-label") }}
+        {{ form.lname(**{"class":"form-control login-field", "placeholder":"Enter first name"}) }}
+      </div>
+
+      <div class="mb-3 control-group">
         {{ form.email.label(class="form-label") }}
         {{ form.email(**{"class":"form-control login-field", "id":"signup-name", "type":"email", "placeholder":"Enter your email", "aria-describedby":"emailHelp"}) }}
         <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
@@ -27,10 +37,7 @@
         {{ form.rpassword(**{'class':'form-control login-field', 'placeholder':"Password", 'id':"rsignup-pass", 'placeholder':"Re-enter Password"}) }}
       </div>
 
-      <div class="btns">
-        <button type="submit" name="submit" class="btn btn-primary btn-block">Submit</button>
-        <a class="btn" href="{{ url_for('user.login') }}">Login</a>
-      </div>
+      <button type="submit" name="submit" class="btn btn-primary btn-block login-btn">Submit</button>
     </form>
   </div>
 </div>
