@@ -31,12 +31,14 @@ def signup():
 
             result = populate_database.insertUser({'fname':fname, 'lname':lname,\
                                                 'email':email,'password':password})
-            if result:
+            if result == True:
                 # flash a message to the user
                 flash('Sign up successful.', 'success')
                 return redirect(url_for("user.login")) 
-            else:
+            elif result ==False:
                 flash('Email address is already associated with an account','danger')
+            else:
+                flash('Database connection error','danger')
         else:
             flash('Passwords does not match','danger')
     return render_template("sign_up.html", form=form)

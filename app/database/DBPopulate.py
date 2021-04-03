@@ -9,16 +9,20 @@ class DBPopulate(DB):
 
     def insertUser(self, data):
         self._start_conn()
-        query = '''INSERT INTO user (first_name, last_name, email, password) \
-                VALUES('{fname}','{lname}','{email}','{password}')'''
+        query = ("INSERT INTO user (first_name, last_name, email, password) \
+                VALUES(%(fname)s, %(lname)s,%(email)s,%(password)s)")#.format(data['fname'],data['lname'],data['email'],data['password'])
+        # print(data)
         try:
             self.cur.execute(query,data)
             result = True
         except errors.IntegrityError:
             result =  False
+        except errors.DatabaseError:
+            result = 'dberr'
         finally:
-            return result
             self._close_conn()
+            return result
+        
 
     def insertUnits(self, unitsList):
         self._start_conn()
