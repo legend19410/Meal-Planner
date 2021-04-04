@@ -1,4 +1,5 @@
 from .DB import DB
+from .conversions import convert
 
 class DBQuery(DB):
 
@@ -23,7 +24,7 @@ class DBQuery(DB):
 
     def getRecipesOfCalCount(self):
         self._start_conn()
-        self.cur.execute('''SELECT * FROM Recipe WHERE ''')
+        self.cur.execute('''SELECT * FROM Recipe''')
         recipes = self.cur.fetchall()
         # self._close_conn()
         return recipes
@@ -44,7 +45,8 @@ class DBQuery(DB):
 
     def getIngredientsForRecipe(self, recipeId):
         self._start_conn()
-        self.cur.execute('''SELECT * FROM Ingredients_In_Recipes WHERE recipe_id={}'''.format(recipeId))
+        self.cur.execute('''SELECT * FROM Ingredients_In_Recipes JOIN Food_Item ON Ingredients_In_Recipes.food_id=\
+        Food_Item.food_id WHERE Ingredients_In_Recipes.recipe_id={}'''.format(recipeId))
         ingredients = self.cur.fetchall()
         # self._close_conn()
         return ingredients
@@ -56,18 +58,19 @@ class DBQuery(DB):
         # self._close_conn()
         return user
 
-    def getMealForDate(self, userId, date):
+    def getMealsForDate(self, userId, date):
         self._start_conn()
-        self.cur.execute('''SELECT * FROM Meal_Plan WHERE user_id={} AND consumption_date='{}' '''\
-                         .format(userId,date))
+        self.cur.execute('''SELECT * FROM Meal_Plan JOIN Recipe ON Meal_Plan.recipe_id=Recipe.recipe_id\
+                            WHERE user_id={} AND consumption_date='{}' '''.format(userId,date))
         meals = self.cur.fetchall()
         # self._close_conn()
         return meals
 
     def getMealInRange(self, userId, startDate, endDate):
         self._start_conn()
-        self.cur.execute('''SELECT * FROM Meal_Plan WHERE user_id={} AND consumption_date >= '{}' AND\
-                            consumption_date <= '{}' ORDER BY consumption_date ASC'''.format(userId, startDate, endDate))
+        self.cur.execute('''SELECT * FROM Meal_Plan JOIN Recipe ON Meal_Plan.recipe_id=Recipe.recipe_id WHERE user_id={}\
+                            AND consumption_date >= '{}' AND consumption_date <= '{}' ORDER BY consumption_date,type_of_meal ASC  '''.\
+                         format(userId, startDate, endDate))
         meals = self.cur.fetchall()
         # self._close_conn()
         return meals
@@ -93,3 +96,25 @@ class DBQuery(DB):
         stock = self.cur.fetchall()
         # self._close_conn()
         return stock
+
+    def getCalCount(self,recipeId):
+        ingredients = self.getIngredientsForRecipe(recipeId)
+        calCount = 0
+        for ing in ingredients:
+            calCount += convert(ing['units'],float(ing['quantity']),float(ing['calories_per_ml']),float(ing['calories_per_g']))
+        return calCount
+
+    def generateSupermarketList(self,recipeId):
+        self._start_conn()
+        self.cur.execute('''SELECT Food_Item.food_name FROM Ingredients_In_Recipes JOIN Food_Item ON Ingredients_In_Recipes.food_id=\
+                Food_Item.food_id WHERE Ingredients_In_Recipes.recipe_id={}'''.format(recipeId))
+        foods = self.cur.fetchall()
+        # self._close_conn()
+        return foods
+
+    def getRandomRecipe(self):
+        self._start_conn()
+        self.cur.execute('''SELECT * FROM Recipe ORDER BY RAND() LIMIT 1''')
+        recipe = self.cur.fetchone()
+        # self._close_conn()
+        return recipe

@@ -20,7 +20,7 @@ class Update:
         recipe = self.dbQuery.getRecipe(recipeId)
         instructions = self.dbQuery.getInstructionForRecipe(recipeId)
         ingredients = self.dbQuery.getIngredientsForRecipe(recipeId)
-        return {'recipe': recipe, 'instructions': instructions, 'ingredients': ingredients}
+        return {'recipe': recipe, 'cal_count':self.dbQuery.getCalCount(recipeId),'instructions': instructions, 'ingredients': ingredients}
 
     def insertUser(self, user):
         fname = user['fname']
@@ -34,13 +34,13 @@ class Update:
 
     def addToKitchenStock(self,userId,foodId,units,quantity):
 
-        self.dbUpdate.insertFoodInKitchenStock(userId,foodId,units,quantity)
-        return self.dbQuery.getMyStock(userId)
+        self.dbUpdate.insertFoodInKitchenStock(int(userId),int(foodId),units,quantity)
+        return self.dbQuery.getMyStock(int(userId))
 
     def addMeal(self,userId,recipeId,consumptionDate,serving,mealType):
 
-        self.dbUpdate.insertMeal(userId,recipeId,consumptionDate,serving,mealType)
-        return self.dbQuery.getMealForDate(userId,consumptionDate)
+        self.dbUpdate.insertMeal(int(userId),int(recipeId),consumptionDate,serving,mealType)
+        return self.dbQuery.getMealForDate(int(userId),consumptionDate)
 
 
 
