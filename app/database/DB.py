@@ -20,6 +20,6 @@ class DB:
             self.conn.commit()
             self.cur.close()
         except:
-            print("Exception here")
-        finally:
-            self.conn.close()
+            print("Exception Here")
+        # finally:
+        #     self.conn.close()

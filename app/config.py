@@ -9,6 +9,7 @@ class Config(object):
     # MYSQL_PASSWORD = os.environ.get('MYSQL_PASSWORD') or  ''
     # MYSQL_DB = os.environ.get('MYSQL_DB') or 'meal_planner'
     # MYSQL_CURSORCLASS = 'DictCursor'
+    UPLOAD_FOLDER = 'uploads'
 
 
 dbconfig = { 

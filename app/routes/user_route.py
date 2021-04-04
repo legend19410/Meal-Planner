@@ -1,6 +1,8 @@
 from flask import Blueprint, Flask, render_template, request, redirect, flash, url_for, session
 from flask_login import UserMixin, login_user, logout_user, current_user, login_required
 from datetime import date, timedelta
+from werkzeug.utils import secure_filename
+import os
 
 #app imports
 from app import app, login_manager
@@ -85,7 +87,7 @@ def recipe(recipe_name):
     return render_template("recipe.html", recipe_name=recipe_name)
 
 
-@user.route('/add-recipe')
+@user.route('/add-recipe', methods=["GET", "POST"])
 @login_required
 def add_recipe():
     """displaying the form to add a new recipe"""
@@ -102,19 +104,20 @@ def add_recipe():
             photo = recipe_form.photo.data
 
             filename = secure_filename(photo.filename)
-            photo.save(os.path.join(
+            filepath = os.path.join(
                 app.config['UPLOAD_FOLDER'], filename
-            ))
+            )
+            photo.save(filepath)
 
             # Add new property to database
             #to do
-            
+            update_database.addRecipe({"name": name, "image":filepath, "added_by":current_user.get_id()})
 
             flash('Recipe added successfully.', 'success')
             return redirect(url_for('user.add_recipe'))
 
         flash_errors(recipe_form)
-    return render_template("input_recipe.html")
+    return render_template("input_recipe.html", form=recipe_form)
 
 
 

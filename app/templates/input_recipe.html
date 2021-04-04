@@ -3,15 +3,11 @@
 {% extends "base.html" %} {% block content %}
 <div class="addrec-container">
   <h1>Add Recipe</h1>
-  <form action="" class="recipe-form">
-    <input type="text" placeholder="Enter Food" class="simple-input" /><br />
-    <input type="text" placeholder="Enter Units" class="simple-input" /><br />
-    <input
-      type="text"
-      placeholder="Enter Quantity"
-      class="simple-input"
-    /><br />
-    <button type="button" class="btn btn-success">Add</button>
+  <form action="{{ url_for('user.add_recipe') }}" class="recipe-form" method="post" enctype="multipart/form-data">
+    {{ form.csrf_token }}
+    {{ form.name(**{"class":"form-control simple-input", "id":"recipe-name", "type":"text", "placeholder":"Enter Recipe Name", "aria-describedby":"recipe name input field"}) }}
+    {{ form.photo(**{"class":"form-control simple-input", "id":"image", "type":"file", "aria-describedby":"recipe image"}) }}
+   <button type="submit" name="submit" class="btn btn-success">Add</button>
   </form>
 </div>
 

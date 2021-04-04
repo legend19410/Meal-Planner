@@ -17,7 +17,7 @@ class SignupForm(FlaskForm):
 
 
 class RecipeForm(FlaskForm):
-    name = StringField('First Name', validators=[InputRequired()])
+    name = StringField('Recipe Name', validators=[InputRequired()])
     photo = FileField('Photo', validators=[
         FileRequired(),
         FileAllowed(['jpg', 'png', 'Images only!'])

@@ -5,7 +5,7 @@ class Update:
         self.dbUpdate = dbUpdate
 
     def addRecipe(self, request):
-
+        print(request)
         #extract request
         #add recipe to db
         #self.dbUpdate.insertRecipe()
