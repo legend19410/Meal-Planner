@@ -5,13 +5,11 @@ class Update:
         self.dbUpdate = dbUpdate
 
     def addRecipe(self,recipe):
-
-        details = recipe['recipe']
         instructions = recipe['instructions']
         ingredients = recipe['ingredients']
 
         recipeId = self.dbQuery.getMaxRecipeId() + 1
-        self.dbUpdate.insertRecipe(recipeId, details['name'],int(details['added_by']))
+        self.dbUpdate.insertRecipe(recipeId, recipe['name'],int(recipe['added_by']))
         if recipeId:
             for ingredient in ingredients:
                 self.dbUpdate.insertIngredients(ingredient['ingredient_id'],recipeId,ingredient['units'],ingredient['quantity'])
@@ -20,7 +18,7 @@ class Update:
         recipe = self.dbQuery.getRecipe(recipeId)
         instructions = self.dbQuery.getInstructionForRecipe(recipeId)
         ingredients = self.dbQuery.getIngredientsForRecipe(recipeId)
-        return {'recipe': recipe, 'cal_count':self.dbQuery.getCalCount(recipeId),'instructions': instructions, 'ingredients': ingredients}
+        return {'recipe': recipe, 'cal_count':self.dbQuery.getCalCount(recipeId)}
 
     def insertUser(self, user):
         fname = user['fname']

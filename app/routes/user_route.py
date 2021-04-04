@@ -111,7 +111,44 @@ def add_recipe():
 
             # Add new property to database
             #to do
-            update_database.addRecipe({"name": name, "image":filepath, "added_by":current_user.get_id()})
+            update_database.addRecipe(
+                {
+                    "name": name, 
+                    "image":filepath, 
+                    "added_by":current_user.get_id(),
+                    "ingredients":[
+                        {
+                            "ingredient_id" : 1,
+                            "units":"g",
+                            "quantity":3
+                        },
+                        {
+                            "ingredient_id" : 2,
+                            "units":"g",
+                            "quantity":3
+                        },
+                        {
+                            "ingredient_id" : 3,
+                            "units":"g",
+                            "quantity":3
+                        }
+                    ],
+                    "instructions":[
+                        {
+                            "step_no":1,
+                            "description":"Wisk butter"
+                        },
+                        {
+                            "step_no":2,
+                            "description":"Wash rice"
+                        },
+                        {
+                            "step_no":3,
+                            "description":"Add Milk to Rice"
+                        }
+                    ]
+                }
+            )
 
             flash('Recipe added successfully.', 'success')
             return redirect(url_for('user.add_recipe'))
