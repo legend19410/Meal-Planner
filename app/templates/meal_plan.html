@@ -1,0 +1,29 @@
+<!--MEAL PLAN-->
+
+{% extends "base.html" %} 
+{% block css %}
+<link rel="stylesheet" href="/static/css/meal_plan.css" />
+{% endblock %}
+
+{% block content %}
+{%for i in range(7)%}
+<div class="card day-plan">
+  <div class="card-header">
+    <div class="day-plan-header">
+      <h4>{{dates[i]}}</h4>
+    </div>
+    
+  </div>
+  <div class="card-body">
+    {%if meals %}
+      {% include "meal_plan_day.html" %}
+    {%else%}
+      <p class="card-text">This day doesn't have a meal plan</p>
+      <button class="btn btn-outline-primary card-btn">Generate <i class="fas fa-sync-alt"></i></button>
+
+      <button class="btn btn-outline-secondary card-btn">New Blank Plan <i class="far fa-plus-square"></i></button>
+    {% endif %}
+  </div>
+</div>
+{% endfor %}
+{% endblock %}

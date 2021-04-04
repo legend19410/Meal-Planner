@@ -2,17 +2,15 @@
   box-sizing: border-box;
 }
 
-a {
-  text-decoration: none;
-  color: white;
-}
 
 *:focus {
   outline: none;
 }
+
 body {
   font-family: Arial;
 }
+
 .login {
   margin: 20px auto;
   width: 500px;
@@ -21,6 +19,14 @@ body {
   background-color: #fff;
   padding: 20px;
   border-radius: 5px;
+}
+
+.login-link{
+  margin-left: auto;
+}
+
+.container, .container-lg, .container-md, .container-sm, .container-xl {
+  max-width: 1200px;
 }
 
 .app-title {
@@ -51,7 +57,7 @@ input:focus {
   box-shadow: none;
 }
 
-.btn {
+/* .btn {
   border: 2px solid transparent;
   background: #3498db;
   color: #ffffff;
@@ -61,7 +67,7 @@ input:focus {
   text-decoration: none;
   margin: 10px auto;
   width: 150px;
-}
+} */
 
 .btn:hover {
   background-color: #2980b9;
@@ -131,4 +137,12 @@ th {
   text-align: center;
   font-weight: 900;
   font-size: 2rem;
+}
+
+footer{
+  padding-left: 10%;
+  background-color: #212529;
+  color: #fff;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }

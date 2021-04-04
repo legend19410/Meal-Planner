@@ -1,0 +1,45 @@
+<div class="card-group">
+    <div class="card">
+      <div class="card-body">
+        <div class="meal-type-header">
+            <h5 class="card-title meal-type-title">Breakfast</h5>
+            <button class="meal-type-sync-btn" data-toggle="tooltip" data-placement="right" title="Regenerate meal"><i class="fas fa-sync-alt"></i></button>
+        </div>
+        <p class="card-text calories-text"><small class="text-muted">{{calories}} Calories</small></p>
+        {% if breakfasts %}
+        {% else %}
+            <p class="card-text">No meal planned</p>
+        {% endif %}
+    </div>
+    </div>
+
+
+    <div class="card">
+      <div class="card-body">
+        <div class="meal-type-header">
+            <h5 class="card-title meal-type-title">Lunch</h5>
+            <button class="meal-type-sync-btn" data-toggle="tooltip" data-placement="right" title="Regenerate meal"><i class="fas fa-sync-alt"></i></button>
+        </div>
+        <p class="card-text calories-text"><small class="text-muted">{{calories}} Calories</small></p>
+        {% if lunches %}
+        {% else %}
+            <p class="card-text">No meal planned</p>
+        {% endif %}
+      </div>
+    </div>
+
+
+    <div class="card">
+      <div class="card-body">
+        <div class="meal-type-header">
+            <h5 class="card-title meal-type-title">Dinner</h5>
+            <button class="meal-type-sync-btn" data-toggle="tooltip" data-placement="right" title="Regenerate meal"><i class="fas fa-sync-alt"></i></button>
+        </div>
+        <p class="card-text calories-text"><small class="text-muted">{{calories}} Calories</small></p>
+        {% if dinners %}
+        {% else %}
+            <p class="card-text">No meal planned</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,60 @@
+.preview-card{
+    margin: 1rem;
+    padding: 0;
+    min-width: 300px;
+}
+
+.preview-card-body{
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.preview-card-title{
+    padding: 0.6rem;
+    padding-bottom: 0;
+    font-size: medium;
+    font-weight: 700;
+    margin-bottom: 0;
+}
+
+.preview-card-text{
+    padding: 0.6rem;
+}
+
+.preview-card-location{
+    margin-top: 0;
+    padding-top: 2px;
+    padding-bottom: 0;
+    font-size: smaller;
+    font-weight: 600;
+    color: lightslategrey;
+}
+
+.preview-card-price{
+    padding-top: 0;
+    margin-bottom: 1rem;
+}
+
+.preview-card-footer{
+    margin-top: auto;
+    padding: 0;
+    border: 0;
+}
+
+.preview-card-btn{
+    padding: 0;
+    width: 100%;
+    border-radius: 0;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-size: small;
+    font-weight: 700;
+    background-color: rgb(20,183, 166);
+    border-color: rgb(20,183, 166);
+}
+
+.preview-card-btn:hover{
+    background-color: rgb(9, 146, 132);
+    border-color: rgb(9, 146, 132);;
+}

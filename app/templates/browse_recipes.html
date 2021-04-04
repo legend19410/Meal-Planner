@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block css %}
+<link rel="stylesheet" href="/static/css/browse_recipes.css" />
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    {% if recipes %}
+        {% for recipe in recipes %}
+            <div class="card col-lg-3 col-md-4 col-sm-5 col-9 preview-card">
+                <img class="card-img-top" src="" alt="Card image cap">
+                <div class="card-body preview-card-body">
+                    <h5 class="card-title preview-card-title">Text</h5>
+
+                    <p class="card-text preview-card-text preview-card-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        
+                    </p>
+
+                    <div class="preview-card-text preview-card-price"><span class="property-price card-blob">$</span></div>
+                   
+                    <div class="card-footer preview-card-footer">
+                        <small>
+                            <a class="btn btn-primary preview-card-btn" href="">View Property</a>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+{% endblock %}

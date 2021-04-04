@@ -1,5 +1,6 @@
 from flask import Blueprint, Flask, render_template, request, redirect, flash, url_for, session
 from flask_login import UserMixin, login_user, logout_user, current_user, login_required
+from datetime import date, timedelta
 
 #app imports
 from app import app, login_manager
@@ -12,12 +13,12 @@ user = Blueprint("user", __name__)
 #JASON TEST routes, will soon create a blueprint for this
 @user.route('/')
 def index():
-    return render_template("index.html")
+    return render_template("login.html")
 
 @user.route('/sign-up',methods=["GET", "POST"])
 def signup():
     if current_user.is_authenticated:
-        return redirect(url_for('user.index'))
+        return redirect(url_for('user.meal_plan'))
     
     form = SignupForm()
     if request.method == "POST" and form.validate_on_submit():
@@ -47,7 +48,7 @@ def signup():
 @user.route('/login', methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('user.index'))
+        return redirect(url_for('user.meal_plan'))
     
     form = LoginForm()
     if request.method == "POST" and form.validate_on_submit():
@@ -69,7 +70,7 @@ def login():
                 # flash a message to the user
                 flash('Logged in successfully.', 'success')
                 
-                return redirect(url_for("user.create_mplan")) 
+                return redirect(url_for("user.meal_plan")) 
         else:
             flash('Username or Password is incorrect.','danger')
     
@@ -89,10 +90,23 @@ def add_recipe():
     return render_template("input_recipe.html")
 
 
-@user.route('/create-mplan')
+
+@user.route('/meal_plan')
 @login_required
-def create_mplan():
-    return render_template("create_mplan.html")
+def meal_plan():
+    today = date.today()
+    dates = [today + timedelta(days=i) for i in range(-1 - today.weekday(), 6 - today.weekday())]
+    days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']
+    months = ['January','February','March','April','May','June','July','August','September','October','November','December']
+    
+    f_date = [days[fdate.weekday()]+", "+months[fdate.month-1]+" "+str(fdate.day)+"th" for fdate in dates]
+    return render_template("meal_plan.html", dates=f_date, meals={'date':1})
+
+
+@user.route('/browse_recipes')
+@login_required
+def browse_recipes():
+    return render_template("browse_recipes.html")
 
 
 @user.route('/grocery')
@@ -156,21 +170,3 @@ class User(UserMixin):
 #     """Send your static text file."""
 #     file_dot_text = file_name + '.txt'
 #     return app.send_static_file(file_dot_text)
-
-
-# @app.after_request
-# def add_header(response):
-#     """
-#     Add headers to both force latest IE rendering engine or Chrome Frame,
-#     and also to cache the rendered page for 10 minutes.
-#     """
-#     response.headers['X-UA-Compatible'] = 'IE=Edge,chrome=1'
-#     response.headers['Cache-Control'] = 'public, max-age=0'
-#     return response
-
-
-# @app.errorhandler(404)
-# def page_not_found(error):
-#     """Custom 404 page."""
-#     return render_template('404.html'), 404
-
