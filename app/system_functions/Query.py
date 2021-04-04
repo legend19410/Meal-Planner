@@ -1,3 +1,5 @@
+import datetime
+
 class Query:
 
     def __init__(self, dbQuery):
@@ -14,6 +16,9 @@ class Query:
         instructions = self.dbQuery.getInstructionForRecipe(recipeId)
         ingredients = self.dbQuery.getIngredientsForRecipe(recipeId)
         return {'recipe':recipe,'instructions':instructions,'ingredients':ingredients}
+
+    def getMealPlan(self,user,startDate,endDate):
+        return self.dbQuery.getMealInRange(user,startDate,endDate)
 
     def getRecipesOfCalCount(self, calCount):
         pass
