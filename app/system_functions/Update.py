@@ -4,9 +4,10 @@ class Update:
         self.dbQuery = dbQuery
         self.dbUpdate = dbUpdate
 
-    def addRecipe(self, request):
+    def addRecipe(self):
+        pass
 
-        #extract request
-        #add recipe to db
-        #self.dbUpdate.insertRecipe()
+
+    def insertIngredients(self):
+        # self.dbUpdate.insertIngredients(foodId, recipeId,units,quantity)
         pass

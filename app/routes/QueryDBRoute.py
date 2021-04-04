@@ -10,4 +10,6 @@ def get_all_measurements():
     measurements = query.getAllMeasurements()
     return str(measurements)
 
-
+@query_db.route('/get_recipe')
+def get_recipe():
+   return str(query_database.getRecipe(38))
