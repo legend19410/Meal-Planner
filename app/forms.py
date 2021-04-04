@@ -16,7 +16,8 @@ class SignupForm(FlaskForm):
     rpassword = PasswordField('Reapeat Password', validators=[InputRequired()])
 
 
-class UploadForm(FlaskForm):
+class RecipeForm(FlaskForm):
+    name = StringField('First Name', validators=[InputRequired()])
     photo = FileField('Photo', validators=[
         FileRequired(),
         FileAllowed(['jpg', 'png', 'Images only!'])

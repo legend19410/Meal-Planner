@@ -4,24 +4,26 @@
 {% endblock %}
 
 {% block content %}
+<form action="">
+    <input type="text" class="search bar">
+</form>
 <div class="row">
     {% if recipes %}
         {% for recipe in recipes %}
-            <div class="card col-lg-3 col-md-4 col-sm-5 col-9 preview-card">
+            <div class="card col-lg-4 col-md-5 col-sm-6 col-10 preview-card">
                 <img class="card-img-top" src="" alt="Card image cap">
                 <div class="card-body preview-card-body">
                     <h5 class="card-title preview-card-title">Text</h5>
 
                     <p class="card-text preview-card-text preview-card-location">
-                        <i class="fas fa-map-marker-alt"></i>
-                        
+                        {{calories}} Calories per serving
                     </p>
 
                     <div class="preview-card-text preview-card-price"><span class="property-price card-blob">$</span></div>
                    
                     <div class="card-footer preview-card-footer">
                         <small>
-                            <a class="btn btn-primary preview-card-btn" href="">View Property</a>
+                            <a class="btn btn-primary preview-card-btn" href="">View Recipe</a>
                         </small>
                     </div>
                 </div>

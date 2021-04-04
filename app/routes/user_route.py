@@ -4,7 +4,7 @@ from datetime import date, timedelta
 
 #app imports
 from app import app, login_manager
-from app.forms import LoginForm, SignupForm
+from app.forms import LoginForm, SignupForm, RecipeForm
 from ..system_functions import populate_database, query_database, update_database
 
 
@@ -86,7 +86,34 @@ def recipe(recipe_name):
 
 
 @user.route('/add-recipe')
+@login_required
 def add_recipe():
+    """displaying the form to add a new recipe"""
+    #this function is just a idea of what should be done
+    recipe_form = RecipeForm()
+
+    if request.method == 'POST':
+        if recipe_form.validate_on_submit():
+            # Note the difference when retrieving form data using Flask-WTF
+            # Here we use myform.firstname.data instead of request.form['firstname']
+            name = recipe_form.name.data
+
+            # Get file data and save to your uploads folder
+            photo = recipe_form.photo.data
+
+            filename = secure_filename(photo.filename)
+            photo.save(os.path.join(
+                app.config['UPLOAD_FOLDER'], filename
+            ))
+
+            # Add new property to database
+            #to do
+            
+
+            flash('Recipe added successfully.', 'success')
+            return redirect(url_for('user.add_recipe'))
+
+        flash_errors(recipe_form)
     return render_template("input_recipe.html")
 
 
