@@ -1,0 +1,34 @@
+* {
+  padding: 0;
+}
+
+.container {
+  height: 90vh;
+}
+h3 {
+  margin-top: 10px;
+}
+
+#searchBar {
+  padding: 20px 0;
+}
+.kitchen-table a {
+  color: black;
+}
+
+.right-container {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+}
+
+.right-container btn {
+  margin: 10px 0;
+}
+.kitchen-table {
+}
+.kitchen-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  border: 1px solid gray;
+}

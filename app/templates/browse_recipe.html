@@ -1,0 +1,30 @@
+{% extends "base.html" %} {% block content %} {% block css %}
+<link rel="stylesheet" href="/static/css/kitchen.css" />
+{% endblock %}
+<div class="container">
+  <br />
+  <h3>Recipes</h3>
+  <div id="searchBar">
+    <input id="search-bar" placeholder="Search" type="search" />
+    <button type="submit" class="btn btn-secondary" id="submit">Search</button>
+  </div>
+  <div class="kitchen-container">
+    <div class="kitchen-table">
+      <table class="table">
+        <tr class="t-heading">
+          <th>Image</th>
+          <th>Title</th>
+          <th>Added By</th>
+        </tr>
+        {% for recipe in data %}
+        <tr>
+          {% for cell in recipe %}
+          <td>{{ cell }}</td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

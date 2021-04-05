@@ -173,7 +173,10 @@ def meal_plan():
 @user.route('/browse_recipes')
 @login_required
 def browse_recipes():
-    return render_template("browse_recipes.html")
+    data = (("Image","Stove Pot Roast With Mashed Potatoes","User 1"),("Image","Taco Meat","User 1"),
+    ("Image","Potato Salmon Patties","User 1"),("Image","Basic Mashed Potatoes","User 1"),("Image","Easy Chicken Piccata","User 1"),
+    ("Image","Simple White Cake","User 1"),("Image","Loaded Breakfast Skillet","User 1"))
+    return render_template("browse_recipe.html", data=data)
 
 
 @user.route('/grocery')
@@ -181,12 +184,10 @@ def browse_recipes():
 def grocery():
     pass
 
-
 @user.route('/kitchen')
 @login_required
 def kitchen():
     pass
-
 
 @user.route('/logout')
 @login_required
