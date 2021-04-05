@@ -183,10 +183,13 @@ def grocery():
 @user.route('/kitchen')
 @login_required
 def kitchen():
-    data = (("Image","Stove Pot Roast With Mashed Potatoes","User 1"),("Image","Taco Meat","User 1"),
+    rec_data = (("Image","Stove Pot Roast With Mashed Potatoes","User 1"),("Image","Taco Meat","User 1"),
     ("Image","Potato Salmon Patties","User 1"),("Image","Basic Mashed Potatoes","User 1"),("Image","Easy Chicken Piccata","User 1"),
     ("Image","Simple White Cake","User 1"),("Image","Loaded Breakfast Skillet","User 1"))
-    return render_template("Kitchen.html", data=data)
+
+    food_data = (("Mayo","10","250"),("Mayo","10","250"),("Mayo","10","250"),
+    ("Mayo","10","250"),("Mayo","10","250"),("Mayo","10","250"),("Mayo","10","250"),("Mayo","10","250"))
+    return render_template("Kitchen.html", rec_data=rec_data, food_data=food_data)
 
 
 @user.route('/logout')

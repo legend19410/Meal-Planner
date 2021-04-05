@@ -2,9 +2,6 @@
   padding: 0;
 }
 
-.container {
-  height: 90vh;
-}
 h3 {
   margin-top: 10px;
 }
@@ -27,7 +24,8 @@ h3 {
 }
 .kitchen-table {
 }
-.kitchen-container {
+.kitchen-table {
+  margin: 20px 0;
   display: grid;
   grid-template-columns: 1fr;
   border: 1px solid gray;
