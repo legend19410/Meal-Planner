@@ -173,7 +173,7 @@ def meal_plan():
 @user.route('/browse_recipes')
 @login_required
 def browse_recipes():
-    pass
+    return render_template("browse_recipes.html")
 
 @user.route('/grocery')
 @login_required
