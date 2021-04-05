@@ -24,7 +24,7 @@ class Query:
         return mealPlan
 
     def getMealsForDate(self,userId, date):
-        mealPlan =  self.dbQuery.getMealForDate(int(userId),date)
+        mealPlan =  self.dbQuery.getMealsForDate(int(userId),date)
         if len(mealPlan) > 0:
             for meal in mealPlan:
                 meal['cal_count'] = self.dbQuery.getCalCount(meal['recipe_id'])

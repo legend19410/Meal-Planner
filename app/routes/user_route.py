@@ -1,10 +1,11 @@
-from flask import Blueprint, Flask, render_template, request, redirect, flash, url_for, session
+import os
+from flask import Blueprint, Flask, render_template, request, redirect, flash, url_for, session, send_from_directory
 from flask_login import UserMixin, login_user, logout_user, current_user, login_required
 from datetime import date, timedelta
 
 #app imports
 from app import app, login_manager
-from app.forms import LoginForm, SignupForm, RecipeForm
+from app.forms import LoginForm, SignupForm, RecipeForm, SearchRecipeForm
 from ..system_functions import populate_database, query_database, update_database
 
 
@@ -79,13 +80,14 @@ def login():
 
 
 
-@user.route('/recipe/<recipe_name>')
+@user.route('/recipe/<recipe_id>')
 @login_required
-def recipe(recipe_name):
-    return render_template("recipe.html", recipe_name=recipe_name)
+def recipe(recipe_id):
+    recipe = query_database.getRecipe(recipe_id)
+    return render_template("recipe.html", recipe=recipe)
 
 
-@user.route('/add-recipe')
+@user.route('/add-recipe', methods=["GET", "POST"])
 @login_required
 def add_recipe():
     """displaying the form to add a new recipe"""
@@ -117,23 +119,46 @@ def add_recipe():
     return render_template("input_recipe.html")
 
 
-
 @user.route('/meal_plan')
 @login_required
 def meal_plan():
-    today = date.today()
+    
+    today = date.today() #todays date
+
+    #stores the dates of the current week into an array
     dates = [today + timedelta(days=i) for i in range(-1 - today.weekday(), 6 - today.weekday())]
     days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']
     months = ['January','February','March','April','May','June','July','August','September','October','November','December']
     
+    #dates of the current week formatted as a string
     f_date = [days[fdate.weekday()]+", "+months[fdate.month-1]+" "+str(fdate.day)+"th" for fdate in dates]
-    return render_template("meal_plan.html", dates=f_date, meals={'date':1})
+    
+    #format dates for use in database query
+    fdb_dates = [str(fdb_date.year) + "-" + str(fdb_date.month) + "-"+ str(fdb_date.day) for fdb_date in dates]
+    user_id = current_user.get_id()
+    print(fdb_dates)
+    #get meals from database grouped by date
+    meals=[]
+    for date_ in fdb_dates:
+        meals.append(query_database.getMealsForDate(user_id, date_))
+
+    print('Meals',meals)
+    print('User id',user_id)
+    # meals = query_database.getMealPlan(user_id,startDate,endDate)
+
+    return render_template("meal_plan.html", dates=f_date, fdb_dates=fdb_dates, meals=meals)
 
 
-@user.route('/browse_recipes')
+@user.route('/browse_recipes', methods=["GET", "POST"])
 @login_required
 def browse_recipes():
-    return render_template("browse_recipes.html")
+    form = SearchRecipeForm()
+    recipes={}
+    if request.method == "POST" and form.validate_on_submit():
+        search = form.email.data
+        return render_template("browse_recipes.html", form=form, recipes=recipes)
+    
+    return render_template("browse_recipes.html", form=form, recipes=recipes)
 
 
 @user.route('/grocery')
@@ -188,8 +213,9 @@ class User(UserMixin):
         return self.user_dict['password']
 
 ###
-# The functions below should be applicable to all Flask apps.
+# 
 ###
+
 
 
 # @app.route('/<file_name>.txt')

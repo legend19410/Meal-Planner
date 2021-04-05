@@ -4,6 +4,7 @@ class Config(object):
     """Base Config Object"""
     DEBUG = False
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'Som3$ec5etK*y'
+    UPLOAD_FOLDER = './uploads'
     # MYSQL_HOST = os.environ.get('MYSQL_HOST') or 'localhost'
     # MYSQL_USER = os.environ.get('MYSQL_USER') or 'root'
     # MYSQL_PASSWORD = os.environ.get('MYSQL_PASSWORD') or  ''

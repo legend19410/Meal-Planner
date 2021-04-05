@@ -4,31 +4,40 @@
 {% endblock %}
 
 {% block content %}
-<form action="">
-    <input type="text" class="search bar">
+
+<h2>RECIPES</h2>
+<form action="{{ url_for('user.browse_recipes')}}">
+    {{ form.csrf_token }}
+    <div class="mb-3 form-search-group">
+        {{ form.search(**{"class":"form-control", "id":"search-box", "placeholder":"Search for recipe"}) }}
+        <button id="search-btn" type="submit" name="submit" class="btn btn-primary btn-block login-btn">Search</button>
+    </div>
 </form>
 <div class="row">
     {% if recipes %}
         {% for recipe in recipes %}
             <div class="card col-lg-4 col-md-5 col-sm-6 col-10 preview-card">
-                <img class="card-img-top" src="" alt="Card image cap">
+                <img class="card-img-top" src="{{url_for('get_image', filename=recipe['image'])}}" alt="Card image cap">
                 <div class="card-body preview-card-body">
-                    <h5 class="card-title preview-card-title">Text</h5>
+                    <h5 class="card-title preview-card-title">{{recipe['recipe_name']}}</h5>
 
                     <p class="card-text preview-card-text preview-card-location">
-                        {{calories}} Calories per serving
+                        {{recipe['tot_calories']}} Calories per serving
                     </p>
-
-                    <div class="preview-card-text preview-card-price"><span class="property-price card-blob">$</span></div>
                    
                     <div class="card-footer preview-card-footer">
                         <small>
-                            <a class="btn btn-primary preview-card-btn" href="">View Recipe</a>
+                            <a class="btn btn-primary preview-card-btn" href="{{url_for('user.recipe',recipeid=recipe['recipe_id'])}}">Add to Meal Plan</a>
+                        </small>
+                        <small>
+                            <a class="btn btn-primary preview-card-btn" href="{{url_for('user.recipe',recipeid=recipe['recipe_id'])}}">View Recipe</a>
                         </small>
                     </div>
                 </div>
             </div>
         {% endfor %}
+    {% else%}
+        <p id="message">No Recipes Found</p>
     {% endif %}
 </div>
 

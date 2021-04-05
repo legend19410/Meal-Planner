@@ -22,3 +22,7 @@ class RecipeForm(FlaskForm):
         FileRequired(),
         FileAllowed(['jpg', 'png', 'Images only!'])
     ])
+
+
+class SearchRecipeForm(FlaskForm):
+    search = StringField('Search for recipe', validators=[InputRequired()])
