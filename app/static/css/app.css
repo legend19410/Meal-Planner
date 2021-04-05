@@ -140,9 +140,13 @@ th {
 }
 
 footer{
-  padding-left: 10%;
+  /* padding-left: 10%; */
   background-color: #212529;
   color: #fff;
-  padding-top: 2rem;
+  margin-top: 2rem;
   padding-bottom: 2rem;
+}
+
+footer p{
+  margin-left: 5%;
 }

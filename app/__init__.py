@@ -1,4 +1,5 @@
-from flask import Flask, render_template
+import os
+from flask import Flask, render_template, url_for, send_from_directory
 from flask_login import LoginManager
 # from flask_mysqldb import MySQL
 from .config import Config, dbconfig
@@ -17,10 +18,13 @@ login_manager.login_message_category = "info"  # customize the flash message cat
 
 from app import routes
 
-
-
 #SOME default routes that is global to the app
-
+@app.route('/uploads/<filename>')
+def get_image(filename):
+    root_dir = os.getcwd()
+    uploaddir = os.path.join(root_dir,app.config['UPLOAD_FOLDER'])
+    return send_from_directory(uploaddir, filename)
+    
 @app.route('/<file_name>.txt')
 def send_text_file(file_name):
     """Send your static text file."""

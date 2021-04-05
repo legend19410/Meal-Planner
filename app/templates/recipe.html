@@ -1,18 +1,40 @@
 <!--DISPLAY A RECIPE-->
-{% extends "base.html" %} {% block content %}
-<div class="t-container">
-  <table class="table">
-    <tr class="t-heading">
-      <th>Recipe ID</th>
-      <th>Recipe Name</th>
-      <th>Added By</th>
-    </tr>
-    <tr class="clickable-row">
-      <td data-th="">1</td>
-      <td data-th="">{{ recipe_name }}</td>
-      <td data-th="">John</td>
-    </tr>
-  </table>
-</div>
+{% extends 'base.html' %}
+{% block css %}
+<link rel="stylesheet" href="/static/css/recipe.css" />
+{% endblock %}
+{% block content %}
+    <div class="row recipe-card-container">
+        {% if recipe %}
+            <div class="card mb-3 recipe-card">
+                <div class="row g-0 recipe-card-row">
+                    <div class="col-md-5 recipe-card-img-container">
+                        <img class="recipe-card-img" src="{{url_for('get_image', filename=prop.photo)}}" alt="Card image cap">
+                    </div>
 
+                    <div class="col-md-7 recipe-card-body-container">
+                        <div class="card-body recipe-card-body">
+                            <h5 class="card-title recipe-card-title">{{recipe['recipe_name']}}</h5>
+                            <div class="recipe-card-price-type-container">
+                                <span class="recipe-price card-blob">{{recipe['tot_calories']}} Calories</span>
+                            </div>
+
+                            <p class="card-text recipe-card-text recipe-card-description">{{ prop.description }}</p>
+
+                        
+                            <p class="card-text recipe-card-text recipe-card-rooms">
+
+                            </p>
+                              
+
+
+                            <div class="card-footer recipe-card-footer"></div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {%endif%}
+    </div>
 {% endblock %}
