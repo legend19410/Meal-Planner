@@ -80,10 +80,11 @@ def login():
 
 
 
-@user.route('/recipe/<recipe_id>')
+@user.route('/recipe/<recipeid>')
 @login_required
-def recipe(recipe_id):
-    recipe = query_database.getRecipe(recipe_id)
+def recipe(recipeid):
+    recipe = query_database.getRecipe(recipeid)
+    # print('RECIPE',recipe[0])
     return render_template("recipe.html", recipe=recipe)
 
 
@@ -136,14 +137,14 @@ def meal_plan():
     #format dates for use in database query
     fdb_dates = [str(fdb_date.year) + "-" + str(fdb_date.month) + "-"+ str(fdb_date.day) for fdb_date in dates]
     user_id = current_user.get_id()
-    print(fdb_dates)
+    # print(fdb_dates)
     #get meals from database grouped by date
     meals=[]
     for date_ in fdb_dates:
         meals.append(query_database.getMealsForDate(user_id, date_))
 
-    print('Meals',meals)
-    print('User id',user_id)
+    # print('Meals',meals)
+    # print('User id',user_id)
     # meals = query_database.getMealPlan(user_id,startDate,endDate)
 
     return render_template("meal_plan.html", dates=f_date, fdb_dates=fdb_dates, meals=meals)
@@ -153,11 +154,13 @@ def meal_plan():
 @login_required
 def browse_recipes():
     form = SearchRecipeForm()
-    recipes={}
+    current_count = current_user.get_recipe_count()
+    recipes = query_database.getNRecipes(current_count,current_count+27)
+    current_user.increase_recipe_count(27)
+    
     if request.method == "POST" and form.validate_on_submit():
         search = form.email.data
         return render_template("browse_recipes.html", form=form, recipes=recipes)
-    
     return render_template("browse_recipes.html", form=form, recipes=recipes)
 
 
@@ -201,7 +204,7 @@ def flash_errors(form):
 class User(UserMixin):
     def __init__(self, user_dict):
         self.user_dict = user_dict
-
+        self.recipe_cnt_for_browse_recipe = 0
     # Overriding get_id is required if you don't have the id property
     # Check the source code for UserMixin for details
     def get_id(self):
@@ -211,7 +214,15 @@ class User(UserMixin):
     def get_password(self):
         print(self.user_dict)
         return self.user_dict['password']
+    
+    def get_recipe_count(self):
+        return self.recipe_cnt_for_browse_recipe
 
+    def increase_recipe_count(self,val):
+        self.recipe_cnt_for_browse_recipe+=val
+    
+    def reset_recipe_count(self):
+        self.recipe_cnt_for_browse_recipe=0
 ###
 # 
 ###

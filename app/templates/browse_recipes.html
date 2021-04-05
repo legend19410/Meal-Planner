@@ -6,17 +6,18 @@
 {% block content %}
 
 <h2>RECIPES</h2>
-<form action="{{ url_for('user.browse_recipes')}}">
+<form class="row form-container" action="{{ url_for('user.browse_recipes')}}">
     {{ form.csrf_token }}
     <div class="mb-3 form-search-group">
         {{ form.search(**{"class":"form-control", "id":"search-box", "placeholder":"Search for recipe"}) }}
         <button id="search-btn" type="submit" name="submit" class="btn btn-primary btn-block login-btn">Search</button>
     </div>
 </form>
-<div class="row">
+
+<div class="row recipes-area">
     {% if recipes %}
         {% for recipe in recipes %}
-            <div class="card col-lg-4 col-md-5 col-sm-6 col-10 preview-card">
+            <div class="card col-lg-3 col-md-4 col-sm-5 col-9 preview-card">
                 <img class="card-img-top" src="{{url_for('get_image', filename=recipe['image'])}}" alt="Card image cap">
                 <div class="card-body preview-card-body">
                     <h5 class="card-title preview-card-title">{{recipe['recipe_name']}}</h5>
