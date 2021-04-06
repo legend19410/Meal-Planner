@@ -85,3 +85,24 @@ CREATE TABLE kitchen_stock(
     FOREIGN KEY(food_id) REFERENCES food_item(food_id),
     FOREIGN KEY(units) REFERENCES measurement(units)
 );
+
+
+CREATE VIEW Total_Cal_Meal as(
+    SELECT 
+        recipe_id, sum(calories) as tot_calories
+    FROM (
+        SELECT  
+            i.recipe_id as recipe_id, 
+            CASE WHEN m.type = 'volume' THEN
+                        (f.calories_per_ml * i.quantity *m.base_unit)
+                WHEN m.type = 'mass' THEN
+                        (f.calories_per_g * i.quantity *m.base_unit)
+            END as calories
+        FROM 
+            ingredients_in_recipes i 
+        JOIN food_item f on f.food_id = i.food_id
+        JOIN measurement m on m.units = i.units
+                
+    ) as cal_per_i
+    GROUP BY recipe_id    
+);

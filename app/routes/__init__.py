@@ -1,4 +1,4 @@
-
+from flask import redirect, url_for, send_from_directory
 from app import app
 
 """import blueprints (routes) for different sections of the system"""
@@ -16,4 +16,5 @@ app.register_blueprint(user, url_prefix="/user")
 
 @app.route('/')
 def index():
-    return "HOME"
+    return redirect(url_for('user.index'))
+
