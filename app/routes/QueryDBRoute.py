@@ -5,6 +5,23 @@ import datetime
 
 query_db = Blueprint("query_db", __name__)
 
+start_index = 0
+increment_by = 25
+
+
+@query_db.route('/get_n_recipes')
+def get_n_recipes():
+    global start_index
+    recipes = query_database.getNRecipes(start_index, increment_by)
+    start_index += increment_by
+    return str([recipe['recipe_name'] for recipe in recipes])
+
+@query_db.route('/reset_index')
+def reset_index():
+    global start_index
+    start_index = 0
+    return 'Reset'
+
 
 @query_db.route('/get_all_measurements')
 def get_all_measurements():
@@ -14,14 +31,14 @@ def get_all_measurements():
 
 @query_db.route('/get_recipe')
 def get_recipe():
-   return str(query_database.getRecipe(38))
+   return str(query_database.getRecipeByName('low fat berry blue frozen dessert'))
 
 @query_db.route('/get_meal_plan')
 def get_meal_plan():
 
     user = 1
     startDate = datetime.datetime(2021,4,1)
-    endDate = datetime.datetime(2021, 4, 15)
+    endDate = datetime.datetime(2021, 4, 1)
 
     return str(query_database.getMealPlan(user,startDate,endDate))
 
@@ -39,6 +56,11 @@ def get_ing():
 
     return str(query_database.getIngredients(38))
 
+@query_db.route('/get_inst')
+def get_inst():
+
+    return str(query_database.getInstructions(38))
+
 @query_db.route('/get_cal_count')
 def get_cal_count():
 
@@ -54,3 +76,4 @@ def get_ran_rec():
 def get_lst():
 
     return str(query_database.genLst(38))
+

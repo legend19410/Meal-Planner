@@ -36,20 +36,38 @@ class DBQuery(DB):
         self._close_conn()
         return recipe
 
+    def getRecipeByName(self, recipeName):
+        self._start_conn()
+        self.cur.execute('''SELECT * FROM Recipe WHERE recipe_name like '%{}%' ORDER BY LIMIT 50 '''.format(recipeName))
+        recipes = self.cur.fetchall()
+        # self._close_conn()
+        return recipes
+
+    def getNRecipes(self, start, end):
+        self._start_conn()
+        self.cur.execute('''SELECT * FROM Recipe LIMIT {},{}'''.format(start, end))
+        recipes = self.cur.fetchall()
+        # self._close_conn()
+        return recipes
+
     def getInstructionForRecipe(self, recipeId):
         self._start_conn()
-        self.cur.execute('''SELECT * FROM instruction WHERE recipe_id={}'''.format(recipeId))
-        instructions = self.cur.fetchall()
-        self._close_conn()
-        return instructions
+        self.cur.callproc('get_instructions',[recipeId,])
+        instructions = self.cur.stored_results()
+        print(instructions)
+        for i in instructions:
+            return i.fetchall()
+        # self._close_conn()
+        # return instructions
 
     def getIngredientsForRecipe(self, recipeId):
         self._start_conn()
-        self.cur.execute('''SELECT * FROM ingredients_in_recipes JOIN food_item ON ingredients_in_recipes.food_id=\
-        food_item.food_id WHERE ingredients_in_recipes.recipe_id={}'''.format(recipeId))
-        ingredients = self.cur.fetchall()
-        self._close_conn()
-        return ingredients
+        self.cur.callproc('get_ingredients',[recipeId,])
+        ingredients = self.cur.stored_results()
+        for i in ingredients:
+            return i.fetchall()
+        # self._close_conn()
+        # return ingredients
 
     def getUserById(self, userId):
         self._start_conn()
@@ -98,11 +116,16 @@ class DBQuery(DB):
         return stock
 
     def getCalCount(self,recipeId):
-        ingredients = self.getIngredientsForRecipe(recipeId)
-        calCount = 0
-        for ing in ingredients:
-            calCount += convert(ing['units'],float(ing['quantity']),float(ing['calories_per_ml']),float(ing['calories_per_g']))
-        return calCount
+        self._start_conn()
+        self.cur.execute('''SELECT * FROM total_cal_meal WHERE recipe_id={}'''.format(recipeId))
+        colCount = self.cur.fetchone()
+        # self._close_conn()
+        return round(colCount['tot_calories'],2)
+        # ingredients = self.getIngredientsForRecipe(recipeId)
+        # calCount = 0
+        # for ing in ingredients:
+        #     calCount += convert(ing['units'],float(ing['quantity']),float(ing['calories_per_ml']),float(ing['calories_per_g']))
+        # return calCount
 
     def generateSupermarketList(self,recipeId):
         self._start_conn()
@@ -118,3 +141,6 @@ class DBQuery(DB):
         recipe = self.cur.fetchone()
         self._close_conn()
         return recipe
+
+
+
