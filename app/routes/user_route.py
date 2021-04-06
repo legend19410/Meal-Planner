@@ -4,6 +4,7 @@ from flask_login import UserMixin, login_user, logout_user, current_user, login_
 from datetime import date, timedelta
 from werkzeug.utils import secure_filename
 import os
+import json
 
 #app imports
 from app import app, login_manager
@@ -15,8 +16,10 @@ user = Blueprint("user", __name__)
 
 #JASON TEST routes, will soon create a blueprint for this
 @user.route('/')
+@user.route('/')
 def index():
-    return render_template("login.html")
+    form = LoginForm()
+    return render_template("login.html", form=form)
 
 @user.route('/sign-up',methods=["GET", "POST"])
 def signup():
@@ -94,69 +97,42 @@ def recipe(recipe_id):
 def add_recipe():
     """displaying the form to add a new recipe"""
     #this function is just a idea of what should be done
-    recipe_form = RecipeForm()
 
     if request.method == 'POST':
-        if recipe_form.validate_on_submit():
-            # Note the difference when retrieving form data using Flask-WTF
-            # Here we use myform.firstname.data instead of request.form['firstname']
-            name = recipe_form.name.data
 
-            # Get file data and save to your uploads folder
-            photo = recipe_form.photo.data
+        # Note the difference when retrieving form data using Flask-WTF
+        # Here we use myform.firstname.data instead of request.form['firstname']
+        name = request.form['name']
 
-            filename = secure_filename(photo.filename)
-            filepath = os.path.join(
-                app.config['UPLOAD_FOLDER'], filename
-            )
-            photo.save(filepath)
+        # Get file data and save to your uploads folder
+        # photo = recipe_form.photo.data
+        photo = request.files['image']
 
-            # Add new property to database
-            #to do
-            update_database.addRecipe(
-                {
-                    "name": name, 
-                    "image":filepath, 
-                    "added_by":current_user.get_id(),
-                    "ingredients":[
-                        {
-                            "ingredient_id" : 1,
-                            "units":"g",
-                            "quantity":3
-                        },
-                        {
-                            "ingredient_id" : 2,
-                            "units":"g",
-                            "quantity":3
-                        },
-                        {
-                            "ingredient_id" : 3,
-                            "units":"g",
-                            "quantity":3
-                        }
-                    ],
-                    "instructions":[
-                        {
-                            "step_no":1,
-                            "description":"Wisk butter"
-                        },
-                        {
-                            "step_no":2,
-                            "description":"Wash rice"
-                        },
-                        {
-                            "step_no":3,
-                            "description":"Add Milk to Rice"
-                        }
-                    ]
-                }
-            )
+        filename = secure_filename(photo.filename)
+        filepath = os.path.join(
+            app.config['UPLOAD_FOLDER'], filename
+        )
+        photo.save(filepath)
 
-            flash('Recipe added successfully.', 'success')
-            return redirect(url_for('user.add_recipe'))
+        ingredients = json.loads(request.form['ingredients'])
+        instructions = json.loads(request.form['instructions'])
+        
 
-        flash_errors(recipe_form)
-    return render_template("input_recipe.html", form=recipe_form)
+        # Add new property to database
+        #to do
+        update_database.addRecipe(
+            {
+                "name": name, 
+                "image":filename, 
+                "added_by":current_user.get_id(),
+                "ingredients": ingredients,
+                "instructions":instructions
+            }
+        )
+
+        flash('Recipe added successfully.', 'success')
+        return redirect(url_for('user.add_recipe'))
+    return render_template("input_recipe.html")
 
 
 @user.route('/meal_plan')
@@ -174,7 +150,22 @@ def meal_plan():
     f_date = [days[fdate.weekday()]+", "+months[fdate.month-1]+" "+str(fdate.day)+"th" for fdate in dates]
     
     #format dates for use in database query
-    fdb_dates = [str(fdb_date.year) + "-" + str(fdb_date.month) + "-"+ str(fdb_date.day) for fdb_date in dates]
+    fdb_dates = []
+    for fdb_date in dates:
+        string = str(fdb_date.year) + "-"
+        if fdb_date.month < 10:
+            string += '0' +str(fdb_date.month)
+        else:
+            string += str(fdb_date.month)
+
+        string += '-'
+        if fdb_date.day < 10:
+            string += '0' + str(fdb_date.day)
+        else:
+            string += str(fdb_date.day)
+
+        fdb_dates.append(string)
+    
     user_id = current_user.get_id()
     print(fdb_dates)
     #get meals from database grouped by date
