@@ -9,7 +9,7 @@ class Update:
         ingredients = recipe['ingredients']
 
         recipeId = self.dbQuery.getMaxRecipeId() + 1
-        self.dbUpdate.insertRecipe(recipeId, recipe['name'],int(recipe['added_by']))
+        self.dbUpdate.insertRecipe(recipeId, recipe['name'], recipe['image'], int(recipe['added_by']))
         if recipeId:
             for ingredient in ingredients:
                 self.dbUpdate.insertIngredients(ingredient['ingredient_id'],recipeId,ingredient['units'],ingredient['quantity'])

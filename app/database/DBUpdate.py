@@ -13,11 +13,11 @@ class DBUpdate(DB):
                              format(firstName, lastName, email, password))
         self.conn.commit()
 
-    def insertRecipe(self,recipeId,recipeName, userMarker):
+    def insertRecipe(self,recipeId,recipeName, image, userMarker):
         '''create recipe with id and name'''
         self._start_conn()
-        self.cur.execute('''INSERT INTO recipe (recipe_id,recipe_name,added_by) VALUES({},'{}',{})'''. \
-                            format(recipeId,recipeName, userMarker))
+        self.cur.execute('''INSERT INTO recipe (recipe_id,recipe_name, image, added_by) VALUES({},'{}', '{}',{})'''. \
+                            format(recipeId,recipeName,image, userMarker))
         self.conn.commit()
 
     def insertInstruction(self,recipeId, step, description):
