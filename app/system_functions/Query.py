@@ -11,23 +11,23 @@ class Query:
         return self.dbQuery.getUser(id,email)
 
     def getRecipe(self,recipeId):
-        recipe = self.dbQuery.getRecipe(recipeId)
-        instructions = self.dbQuery.getInstructionForRecipe(recipeId)
-        ingredients = self.dbQuery.getIngredientsForRecipe(recipeId)
-        return {'recipe':recipe,'cal_count':self.dbQuery.getCalCount(recipeId),'instructions':instructions,'ingredients':ingredients}
+        recipe = self.dbQuery.getRecipe(int(recipeId))
+        instructions = self.dbQuery.getInstructionForRecipe(int(recipeId))
+        ingredients = self.dbQuery.getIngredientsForRecipe(int(recipeId))
+        return {'recipe':recipe,'cal_count':self.dbQuery.getCalCount(int(recipeId)),'instructions':instructions,'ingredients':ingredients}
 
     def getMealPlan(self,user,startDate,endDate):
         mealPlan = self.dbQuery.getMealInRange(int(user),startDate,endDate)
         if len(mealPlan) > 0:
             for meal in mealPlan:
-                meal['cal_count'] = self.dbQuery.getCalCount(meal['recipe_id'])
+                meal['cal_count'] = self.dbQuery.getCalCount(int(meal['recipe_id']))
         return mealPlan
 
     def getMealsForDate(self,userId, date):
         mealPlan =  self.dbQuery.getMealForDate(int(userId),date)
         if len(mealPlan) > 0:
             for meal in mealPlan:
-                meal['cal_count'] = self.dbQuery.getCalCount(meal['recipe_id'])
+                meal['cal_count'] = self.dbQuery.getCalCount(int(meal['recipe_id']))
         return mealPlan
 
     def getKitchenStock(self,userId):
@@ -45,8 +45,8 @@ class Query:
 
     def getRandomRecipe(self):
         recipe = self.dbQuery.getRandomRecipe()
-        instructions = self.dbQuery.getInstructionForRecipe(recipe['recipe_id'])
-        ingredients = self.dbQuery.getIngredientsForRecipe(recipe['recipe_id'])
+        instructions = self.dbQuery.getInstructionForRecipe(int(recipe['recipe_id']))
+        ingredients = self.dbQuery.getIngredientsForRecipe(int(recipe['recipe_id']))
         return {'recipe': recipe, 'cal_count': self.dbQuery.getCalCount(recipe['recipe_id']), 'instructions': instructions,\
                 'ingredients': ingredients}
 
@@ -65,6 +65,9 @@ class Query:
 
     def getIngredients(self,recipeId):
         return self.dbQuery.getIngredientsForRecipe(int(recipeId))
+
+    def getInstructions(self,recipeId):
+        return self.dbQuery.getInstructionForRecipe(int(recipeId))
 
     def getCalCount(self,recipeId):
         return [self.dbQuery.getCalCount(recipeId),self.getIngredients(recipeId)]

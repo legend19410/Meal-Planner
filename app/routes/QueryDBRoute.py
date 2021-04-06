@@ -38,7 +38,7 @@ def get_meal_plan():
 
     user = 1
     startDate = datetime.datetime(2021,4,1)
-    endDate = datetime.datetime(2021, 4, 15)
+    endDate = datetime.datetime(2021, 4, 1)
 
     return str(query_database.getMealPlan(user,startDate,endDate))
 
@@ -56,6 +56,11 @@ def get_ing():
 
     return str(query_database.getIngredients(38))
 
+@query_db.route('/get_inst')
+def get_inst():
+
+    return str(query_database.getInstructions(38))
+
 @query_db.route('/get_cal_count')
 def get_cal_count():
 
@@ -71,3 +76,4 @@ def get_ran_rec():
 def get_lst():
 
     return str(query_database.genLst(38))
+
