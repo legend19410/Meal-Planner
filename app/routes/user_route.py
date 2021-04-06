@@ -203,7 +203,7 @@ def browse_recipes():
 @user.route('/grocery')
 @login_required
 def grocery():
-    pass
+    return render_template("grocery.html")
 
 @user.route('/kitchen')
 @login_required
