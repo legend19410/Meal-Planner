@@ -1,33 +1,33 @@
 * {
-  padding: 0;
-}
-
-h3 {
-  margin-top: 10px;
-}
-
-#searchBar {
-  padding: 20px 0;
-}
-.kitchen-table a {
-  color: black;
-}
-
-.right-container {
-  display: flex;
-  flex-direction: column;
-  width: 200px;
-}
-
-.right-container btn {
-  margin: 10px 0;
-}
-
-.kitchen-table {
-  margin: 20px 0;
-  display: grid;
-  grid-template-columns: 1fr;
-  border: 1px solid gray;
-  height: 300px;
-  overflow-y: scroll;
-}
+    padding: 0;
+  }
+  
+  h3 {
+    margin-top: 10px;
+  }
+  
+  #searchBar {
+    padding: 20px 0;
+  }
+  .kitchen-table a {
+    color: black;
+  }
+  
+  .right-container {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+  }
+  
+  .right-container btn {
+    margin: 10px 0;
+  }
+  
+  .kitchen-table {
+    margin: 20px 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    border: 1px solid gray;
+    height: 300px;
+    overflow-y: scroll;
+  }

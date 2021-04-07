@@ -77,6 +77,8 @@ class Query:
     def getCalCount(self,recipeId):
         return [self.dbQuery.getCalCount(recipeId),self.getIngredients(recipeId)]
 
-
+    
+    def getNFoodItems(self,start,end):
+        return self.dbQuery.getNFoodItems(start,end)
 
 

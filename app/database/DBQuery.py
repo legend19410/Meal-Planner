@@ -27,10 +27,23 @@ class DBQuery(DB):
             self.cur.execute(query, {'email':email, 'id':id})
             user = self.cur.fetchone()
             self._close_conn()
-        except errors.Error as e:
-            print(e)
-        finally:
             return user
+        except:
+            try:
+                self._start_conn()
+                query = "SELECT * FROM user WHERE email=%(email)s or user_id=%(id)s"
+                self.cur.execute(query, {'email':email, 'id':id})
+                user = self.cur.fetchone()
+                self._close_conn()
+                return user
+            except:
+                self._start_conn()
+                query = "SELECT * FROM user WHERE email=%(email)s or user_id=%(id)s"
+                self.cur.execute(query, {'email':email, 'id':id})
+                user = self.cur.fetchone()
+                self._close_conn()
+                return user                               
+
 
     def getRecipesOfCalCount(self):
         recipes = []
