@@ -136,7 +136,7 @@ def add_recipe():
     return render_template("input_recipe.html")
 
 
-@user.route('/meal_plan', methods=['GET', 'POST', 'DELETE'])
+@user.route('/meal_plan', methods=['GET', 'POST', 'DELETE', 'PATCH'])
 @login_required
 def meal_plan():
     
@@ -192,6 +192,30 @@ def meal_plan():
     if request.method == 'DELETE':
         consumptionDate = request.json['date']
         update_database.removeMeal(1, consumptionDate)
+
+    if request.method == 'PATCH':
+        print(request.json)
+        consumptionDate = request.json['date']
+        update_database.removeMeal(1, consumptionDate)
+
+        breakfast = query_database.getRandomRecipe()
+
+        if breakfast:
+            update_database.addMeal(1, breakfast['recipe']['recipe_id'], consumptionDate, 1, 'breakfast')
+
+
+        lunch = query_database.getRandomRecipe()
+
+        if lunch:
+            update_database.addMeal(1, lunch['recipe']['recipe_id'], consumptionDate, 1, 'lunch')
+
+
+        dinner = query_database.getRandomRecipe()
+
+        if dinner:
+            update_database.addMeal(1, dinner['recipe']['recipe_id'], consumptionDate, 1, 'dinner')
+
+
     # print(fdb_dates)
     #get meals from database grouped by date
     meals=[]
