@@ -40,3 +40,6 @@ class Update:
         self.dbUpdate.insertMeal(int(userId),int(recipeId),consumptionDate,serving,mealType)
         return self.dbQuery.getMealsForDate(int(userId),consumptionDate)
 
+    def removeMeal(self, userId, date):
+        self.dbUpdate.deleteMeal(int(userId), date)
+

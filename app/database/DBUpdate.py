@@ -11,7 +11,7 @@ class DBUpdate(DB):
             self._start_conn()
             self.cur.execute('''INSERT INTO user (first_name,last_name,email,password) VALUES('{}','{}','{}','{}')'''. \
                                 format(firstName, lastName, email, password))
-            self.conn.commit()
+            self._close_conn()
         except errors.Error as e:
             print(e)
         
@@ -22,7 +22,7 @@ class DBUpdate(DB):
             self._start_conn()
             self.cur.execute('''INSERT INTO recipe (recipe_id,recipe_name, image, added_by) VALUES({},'{}', '{}',{})'''. \
                                 format(recipeId,recipeName,image, userMarker))
-            self.conn.commit()
+            self._close_conn()
         except errors.Error as e:
             print(e)
         
@@ -33,7 +33,7 @@ class DBUpdate(DB):
             self._start_conn()
             self.cur.execute('''INSERT INTO instruction (recipe_id,step,description) VALUES({},{},'{}')'''. \
                                     format(recipeId, step, description))
-            self.conn.commit()
+            self._close_conn()
         except errors.Error as e:
             print(e)
 
@@ -45,7 +45,7 @@ class DBUpdate(DB):
 
             self.cur.execute('''INSERT INTO ingredients_in_recipes (food_id,recipe_id,units,quantity) VALUES({},{},'{}',{})'''. \
                         format(foodId, recipeId, units, quantity))
-            self.conn.commit()        
+            self._close_conn()        
         except errors.Error as e:
             print(e)
 
@@ -57,7 +57,7 @@ class DBUpdate(DB):
 
             self.cur.execute('''INSERT INTO kitchen_stock (user_id,food_id,units,quantity) VALUES({},{},'{}',{})'''. \
                                 format(userId, foodId, units, quantity))
-            self.conn.commit()
+            self._close_conn()
         except errors.Error as e:
             print(e)
 
@@ -68,7 +68,7 @@ class DBUpdate(DB):
         try:
             self.cur.execute('''UPDATE TABLE kitchen_stock SET quantity={} WHERE user_id={} AND recipe_id={}'''. \
                              format(quantity, userId, recipeId))
-            self.conn.commit()
+            self._close_conn()
             result = True
         except errors.IntegrityError:
             result = False
@@ -82,7 +82,17 @@ class DBUpdate(DB):
 
             self.cur.execute('''INSERT INTO meal_plan (user_id,recipe_id,consumption_date,serving,type_of_meal) VALUES({},{},'{}','{}','{}')'''. \
                                 format(userId, recipeId, date, servings, mealType))
-            self.conn.commit()        
+            self._close_conn()        
+        except errors.Error as e:
+            print(e)
+
+    def deleteMeal(self, userId, date):
+        try:
+            self._start_conn()
+
+            self.cur.execute('''DELETE from meal_plan where consumption_date='{}' and user_id ={}'''. \
+                                format(date, userId))
+            self._close_conn()        
         except errors.Error as e:
             print(e)
 
