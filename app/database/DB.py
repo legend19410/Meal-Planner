@@ -20,5 +20,3 @@ class DB:
             self.cur.close()
         except:
             print("Exception here")
-        finally:
-            self.conn.close()

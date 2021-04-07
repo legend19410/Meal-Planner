@@ -251,7 +251,7 @@ def grocery():
 def kitchen():
     kitchen = query_database.getKitchenStock(current_user.get_id())
     food_data = [(food['food_name'],food['calories_per_ml'], food['calories_per_g']) for food in kitchen]
-    return render_template("Kitchen.html", rec_data=rec_data, food_data=food_data)
+    return render_template("Kitchen.html", food_data=food_data)
 
 
 @user.route('/logout')
