@@ -50,6 +50,12 @@ class Query:
         return {'recipe': recipe, 'cal_count': self.dbQuery.getCalCount(recipe['recipe_id']), 'instructions': instructions,\
                 'ingredients': ingredients}
 
+    def getNRecipes(self,start,end):
+        return self.dbQuery.getNRecipes(start,end)
+
+    def getRecipeByName(self,recipeName):
+        return self.dbQuery.getRecipeByName(recipeName)
+
     '''These were written just testing'''
     def genLst(self,rec):
         return self.dbQuery.generateSupermarketList(rec)
