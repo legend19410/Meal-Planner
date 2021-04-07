@@ -17,6 +17,7 @@ class DB:
 
     def _close_conn(self):
         try:
+            self.conn.commit()
             self.cur.close()
         except:
             print("Exception Here")

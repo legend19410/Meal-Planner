@@ -223,6 +223,7 @@ def logout():
 # the user ID stored in the session
 @login_manager.user_loader
 def load_user(id):
+    print(id)
     return User(query_database.getUser(id=id))
 
 
