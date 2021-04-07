@@ -117,8 +117,65 @@ BEGIN
 END //
 DELIMITER ;
 
+-- select * from food_item where in (select distinct(food_id) from ingredients_in_recipes);
+SELECT distinct(recipe_id) FROM meal_plan mp
+JOIN recipe r ON mp.recipe_id=r.recipe_id 
+WHERE user_id=uid
+AND consumption_date between startDate AND endDate 
+
+-- create view tot_recipe_serving as(
+-- SELECT sum(serving) as serving,r.recipe_id FROM meal_plan mp
+-- JOIN recipe r ON mp.recipe_id=r.recipe_id 
+-- WHERE user_id=12
+-- AND consumption_date between '2021-01-01' AND '2021-05-06'
+-- GROUP By r.recipe_id); 
+
+
+-- SELECT fi.food_name, CASE WHEN m.type = 'volume' THEN
+--                     (iir.quantity *m.base_unit)
+--                WHEN m.type = 'mass' THEN
+--                     (iir.quantity *m.base_unit)
+--         END as amount from ingredients_in_recipes iir 
+-- join tot_recipe_serving trs on iir.recipe_id=trs.recipe_id
+-- join food_item fi on iir.food_id=fi.food_id
+-- join measurement m on iir.units=m.units;
+
+
+
+
+DELIMITER //          
+CREATE PROCEDURE getEmployees(IN user_id INT,IN startDate date,IN endDate date)          
+BEGIN          
+    select l.person_name, l.city 
+    from lives l 
+    join works w on l.person_name=w.person_name where w.company_name=companyName;
+END //
+DELIMITER ;
+
 DELIMITER //
-CREATE procedure createRandomMealPlan()
+CREATE PROCEDURE getSuperMarketList(IN uid INT,IN startDate date,IN endDate date)
+BEGIN    
+SELECT fi.food_name, m.type, CASE WHEN m.type = 'volume' THEN
+                    (iir.quantity *m.base_unit)
+               WHEN m.type = 'mass' THEN
+                    (iir.quantity *m.base_unit)
+        END as amount from ingredients_in_recipes iir 
+join(
+    SELECT sum(serving) as serving,r.recipe_id FROM meal_plan mp
+    JOIN recipe r ON mp.recipe_id=r.recipe_id 
+    WHERE user_id=uid
+    AND consumption_date between startDate AND endDate
+    GROUP By r.recipe_id
+) as trs on iir.recipe_id=trs.recipe_id
+join food_item fi on iir.food_id=fi.food_id
+join measurement m on iir.units=m.units;
+END //
+DELIMITER ;
+
+
+
+DELIMITER //
+CREATE procedure createRandomMealPlan(IN user_id)
 wholeblock:BEGIN
    DECLARE anyVariableName1 INT ;
    Declare anyVariableName3 int;
@@ -136,4 +193,23 @@ loop_label: FORLOOP
    END FORLOOP;
 SELECT anyVariableName2;
 END//
+DELIMITER ;
+
+/* Stored procedure for getting the ingredients from a recipe*/
+DELIMITER //
+CREATE PROCEDURE get_ingredients( in id INT )
+begin
+    SELECT * FROM ingredients_in_recipes 
+    JOIN food_item ON 
+        ingredients_in_recipes.food_id=food_item.food_id 
+    WHERE ingredients_in_recipes.recipe_id=38;
+end //
+DELIMITER ;
+
+/* Stored procedure for getting the instructions from a recipe*/
+DELIMITER //
+CREATE PROCEDURE get_instructions( in id INT )
+begin
+    SELECT * FROM Instruction WHERE recipe_id=id;
+end //
 DELIMITER ;

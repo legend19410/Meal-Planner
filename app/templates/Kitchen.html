@@ -10,22 +10,6 @@
   </div>
   <h3>Recipes</h3>
   <div class="kitchen-container">
-    <div class="kitchen-table">
-      <table class="table">
-        <tr class="t-heading">
-          <th>Image</th>
-          <th>Title</th>
-          <th>Added By</th>
-        </tr>
-        {% for recipe in rec_data %}
-        <tr>
-          {% for cell in recipe %}
-          <td>{{ cell }}</td>
-          {% endfor %}
-        </tr>
-        {% endfor %}
-      </table>
-    </div>
     <h3>Foods</h3>
     <div class="kitchen-table">
       <table class="table">

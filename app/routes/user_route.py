@@ -8,7 +8,7 @@ import json
 
 #app imports
 from app import app, login_manager
-from app.forms import LoginForm, SignupForm, RecipeForm, SearchRecipeForm
+from app.forms import LoginForm, SignupForm, RecipeForm, SearchRecipeForm, AddToKitchenForm
 from ..system_functions import populate_database, query_database, update_database
 
 
@@ -194,10 +194,54 @@ def browse_recipes():
         return render_template("browse_recipes.html", form=form, recipes=recipes)
     return render_template("browse_recipes.html", form=form, recipes=recipes)
 
+
+@user.route('/browse_foods', methods=["GET","POST"])
+@login_required
+def browse_foods():
+    addform = AddToKitchenForm()
+    form = SearchRecipeForm()
+    current_count = current_user.get_recipe_count()
+    foods = query_database.getNFoodItems(current_count,current_count+27)
+    current_user.increase_recipe_count(27)
+    
+    if request.method == "POST" and form.validate_on_submit():
+        search = form.email.data
+        return render_template("browse_foods.html", form=form,addform=addform, foods=foods)
+    return render_template("browse_foods.html", form=form, addform=addform,foods=foods)
+
+
+@user.route('/add_to_kitchen/<foodid>/<units>/<quantity>')
+@login_required
+def add_to_kitchen(foodid,units,quantity):
+    update_database.insertFoodInKitchenStock(current_user.get_id(),foodid,units,quantity)
+
+
 @user.route('/grocery')
 @login_required
 def grocery():
-    return render_template("grocery.html")
+    today = date.today() #todays date
+    dates = [today + timedelta(days=i) for i in range(-1 - today.weekday(), 6 - today.weekday())]
+    #format dates for use in database query
+    fdb_dates = []
+    for fdb_date in dates:
+        string = str(fdb_date.year) + "-"
+        if fdb_date.month < 10:
+            string += '0' +str(fdb_date.month)
+        else:
+            string += str(fdb_date.month)
+
+        string += '-'
+        if fdb_date.day < 10:
+            string += '0' + str(fdb_date.day)
+        else:
+            string += str(fdb_date.day)
+
+        fdb_dates.append(string)
+
+    mlist = query_database.generateSupermarketList(current_user.get_id(),fdb_dates[0], fdb_dates[-1])
+    print(mlist)
+
+    return render_template("grocery.html",mlist=mlist)
 
 @user.route('/kitchen')
 @login_required

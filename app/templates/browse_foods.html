@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block css %}
+<link rel="stylesheet" href="/static/css/browse_foods.css" />
+{% endblock %}
+
+{% block content %}
+
+<h2>RECIPES</h2>
+<form class="row form-container" action="{{ url_for('user.browse_foods')}}">
+    {{ form.csrf_token }}
+    <div class="mb-3 form-search-group">
+        {{ form.search(**{"class":"form-control", "id":"search-box", "placeholder":"Search for recipe"}) }}
+        <button id="search-btn" type="submit" name="submit" class="btn btn-primary btn-block login-btn">Search</button>
+    </div>
+</form>
+
+<div class="row recipes-area">
+    {% if foods %}
+        {% for food in foods %}
+            <div class="card col-lg-3 col-md-4 col-sm-5 col-9 preview-card">
+                <div class="card-body preview-card-body">
+                    <h5 class="card-title preview-card-title">{{food['food_name']}}</h5>
+
+                    <p class="card-text preview-card-text preview-card-location">
+                        {{food['calories_per_g']}} Calories per g
+                    </p>
+                    <p class="card-text preview-card-text preview-card-location">
+                        {{food['calories_per_ml']}} Calories per ml
+                    </p>
+                   
+                   
+                    <div class="openBtn card-footer preview-card-footer">
+                        <small>
+                            <button onclick="openForm()" class="btn btn-primary preview-card-btn" href="">Add to Kitchen</button> 
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="formPopup" id="popupForm">
+                <form action="/action_page.php" class="formContainer">
+                    <h2>Add to Kitchen</h2>
+                    <div class="mb-3 control-group">
+                        {{ addform.units.label(class="form-label") }}
+                        {{ addform.units(**{"class":"form-control", "placeholder":"Enter units"}) }}
+                    </div>
+    
+                    <div class="mb-3 control-group">
+                        {{ addform.quantity.label(class="form-label") }}
+                        {{ addform.quantity(**{"class":"form-control", "placeholder":"Enter quantity"}) }}
+                    </div>
+                    <button type="submit" class="btn">Add</button>
+                    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+                  </form>
+            </div>
+        {% endfor %}
+    {% else%}
+        <p id="message">No Food Item Found</p>
+    {% endif %}
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script src="/static/js/browse_foods.js"></script>
+{% endblock %}

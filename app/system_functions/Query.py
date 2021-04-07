@@ -52,6 +52,9 @@ class Query:
 
     def getNRecipes(self,start,end):
         return self.dbQuery.getNRecipes(start,end)
+    
+    def getNFoodItems(self,start,end):
+        return self.dbQuery.getNFoodItems(start,end)
 
     def getRecipeByName(self,recipeName):
         return self.dbQuery.getRecipeByName(recipeName)
