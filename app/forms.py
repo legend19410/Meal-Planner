@@ -17,7 +17,7 @@ class SignupForm(FlaskForm):
 
 
 class RecipeForm(FlaskForm):
-    name = StringField('First Name', validators=[InputRequired()])
+    name = StringField('Recipe Name', validators=[InputRequired()])
     photo = FileField('Photo', validators=[
         FileRequired(),
         FileAllowed(['jpg', 'png', 'Images only!'])
@@ -26,3 +26,8 @@ class RecipeForm(FlaskForm):
 
 class SearchRecipeForm(FlaskForm):
     search = StringField('Search for recipe', validators=[InputRequired()])
+
+
+class AddToKitchenForm(FlaskForm):
+    units = StringField('Units', validators=[InputRequired()])
+    quantity = StringField('Quantity', validators=[InputRequired()])
