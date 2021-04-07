@@ -22,11 +22,12 @@ h3 {
 .right-container btn {
   margin: 10px 0;
 }
-.kitchen-table {
-}
+
 .kitchen-table {
   margin: 20px 0;
   display: grid;
   grid-template-columns: 1fr;
   border: 1px solid gray;
+  height: 300px;
+  overflow-y: scroll;
 }
