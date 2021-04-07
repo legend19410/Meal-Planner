@@ -15,12 +15,30 @@ class DBQuery(DB):
         return measurements
     
     def getUser(self, id, email):
-        self._start_conn()
-        query = "SELECT * FROM user WHERE email=%(email)s or user_id=%(id)s"
-        self.cur.execute(query, {'email':email, 'id':id})
-        user = self.cur.fetchone()
-        self._close_conn()
-        return user
+        try:
+            
+            self._start_conn()
+            query = "SELECT * FROM user WHERE email=%(email)s or user_id=%(id)s"
+            self.cur.execute(query, {'email':email, 'id':id})
+            user = self.cur.fetchone()
+            self._close_conn()
+            return user
+        except:
+            try:
+                self._start_conn()
+                query = "SELECT * FROM user WHERE email=%(email)s or user_id=%(id)s"
+                self.cur.execute(query, {'email':email, 'id':id})
+                user = self.cur.fetchone()
+                self._close_conn()
+                return user
+            except:
+                self._start_conn()
+                query = "SELECT * FROM user WHERE email=%(email)s or user_id=%(id)s"
+                self.cur.execute(query, {'email':email, 'id':id})
+                user = self.cur.fetchone()
+                self._close_conn()
+                return user                               
+
 
     def getRecipesOfCalCount(self):
         self._start_conn()
@@ -49,6 +67,14 @@ class DBQuery(DB):
         recipes = self.cur.fetchall()
         self._close_conn()
         return recipes
+        
+    def getNFoodItems(self, start, end):
+        self._start_conn()
+        self.cur.execute('''SELECT * FROM food_item LIMIT {},{}'''.format(start, end))
+        recipes = self.cur.fetchall()
+        self._close_conn()
+        return recipes
+
 
     def getInstructionForRecipe(self, recipeId):
         self._start_conn()

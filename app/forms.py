@@ -26,3 +26,8 @@ class RecipeForm(FlaskForm):
 
 class SearchRecipeForm(FlaskForm):
     search = StringField('Search for recipe', validators=[InputRequired()])
+
+
+class AddToKitchenForm(FlaskForm):
+    units = StringField('Units', validators=[InputRequired()])
+    quantity = StringField('Quantity', validators=[InputRequired()])
