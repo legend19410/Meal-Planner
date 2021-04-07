@@ -216,7 +216,7 @@ def browse_foods():
 def add_to_kitchen(foodid,units,quantity):
     
     print("Add to Kitchen",current_user.get_id(),foodid,units,quantity)
-    # update_database.insertFoodInKitchenStock(current_user.get_id(),foodid,units,quantity)
+    update_database.insertFoodInKitchenStock(current_user.get_id(),foodid,units,quantity)
     return json.dumps({"success":"Adding was a success"})
 
 
