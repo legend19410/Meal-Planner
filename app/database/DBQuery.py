@@ -73,7 +73,7 @@ class DBQuery(DB):
         recipes = []
         try:
             self._start_conn()
-            self.cur.execute('''SELECT * FROM recipe WHERE recipe_name like '%{}%' ORDER BY LIMIT 50 '''.format(recipeName))
+            self.cur.execute('''SELECT * FROM recipe WHERE recipe_name like '%{}%' LIMIT 50 '''.format(recipeName))
             recipes = self.cur.fetchall()
             self._close_conn()
         except errors.Error as e:
@@ -92,6 +92,13 @@ class DBQuery(DB):
             print(e)
         finally:
             return recipes
+
+    def getNFoodItems(self, start, end):
+        self._start_conn()
+        self.cur.execute('''SELECT * FROM food_item LIMIT {},{}'''.format(start, end))
+        recipes = self.cur.fetchall()
+        self._close_conn()
+        return recipes
 
     def getInstructionForRecipe(self, recipeId):
         instructions = []

@@ -6,7 +6,7 @@
 {% block content %}
 
 <h2>RECIPES</h2>
-<form class="row form-container" action="{{ url_for('user.browse_recipes')}}">
+<form class="row form-container" action="{{ url_for('user.browse_recipes')}}" method="post">
     {{ form.csrf_token }}
     <div class="mb-3 form-search-group">
         {{ form.search(**{"class":"form-control", "id":"search-box", "placeholder":"Search for recipe"}) }}

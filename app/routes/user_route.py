@@ -229,13 +229,19 @@ def meal_plan():
 @login_required
 def browse_recipes():
     form = SearchRecipeForm()
+
+    if request.method == "POST" and form.validate_on_submit():
+        search = form.search.data
+
+        recipes = query_database.getRecipeByName(search)
+        print(recipes)
+
+        return render_template("browse_recipes.html", form=form, recipes=recipes)
+    
     current_count = current_user.get_recipe_count()
     recipes = query_database.getNRecipes(current_count,current_count+27)
     current_user.increase_recipe_count(27)
-    
-    if request.method == "POST" and form.validate_on_submit():
-        search = form.email.data
-        return render_template("browse_recipes.html", form=form, recipes=recipes)
+
     return render_template("browse_recipes.html", form=form, recipes=recipes)
 
 
@@ -260,7 +266,7 @@ def browse_foods():
 def add_to_kitchen(foodid,units,quantity):
     
     print("Add to Kitchen",current_user.get_id(),foodid,units,quantity)
-    update_database.insertFoodInKitchenStock(current_user.get_id(),foodid,units,quantity)
+    update_database.addToKitchenStock(current_user.get_id(),foodid,units,quantity)
     return json.dumps({"success":"Adding was a success"})
 
 

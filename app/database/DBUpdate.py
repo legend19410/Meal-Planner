@@ -6,7 +6,6 @@ class DBUpdate(DB):
         super().__init__(mysql)
 
     def insertUser(self, firstName, lastName, email, password):
-<<<<<<< HEAD
         try:
             self._start_conn()
             self.cur.execute('''INSERT INTO user (first_name,last_name,email,password) VALUES('{}','{}','{}','{}')'''. \
@@ -15,17 +14,9 @@ class DBUpdate(DB):
         except errors.Error as e:
             print(e)
         
-=======
-        self._start_conn()
-        self.cur.execute('''INSERT INTO User (first_name,last_name,email,password) VALUES('{}','{}','{}','{}')'''. \
-                             format(firstName, lastName, email, password))
-        self.conn.commit()
-        self._close_conn()
->>>>>>> home-page
 
     def insertRecipe(self,recipeId,recipeName, image, userMarker):
         '''create recipe with id and name'''
-<<<<<<< HEAD
         try:
             self._start_conn()
             self.cur.execute('''INSERT INTO recipe (recipe_id,recipe_name, image, added_by) VALUES({},'{}', '{}',{})'''. \
@@ -45,20 +36,6 @@ class DBUpdate(DB):
         except errors.Error as e:
             print(e)
 
-=======
-        self._start_conn()
-        self.cur.execute('''INSERT INTO recipe (recipe_id,recipe_name,added_by) VALUES({},'{}',{})'''. \
-                            format(recipeId,recipeName, userMarker))
-        self.conn.commit()
-        self._close_conn()
-
-    def insertInstruction(self,recipeId, step, description):
-        self._start_conn()
-        self.cur.execute('''INSERT INTO Instruction (recipe_id,step,description) VALUES({},{},'{}')'''. \
-                                 format(recipeId, step, description))
-        self.conn.commit()
-        self._close_conn()
->>>>>>> home-page
 
 
     def insertIngredients(self, foodId, recipeId,units,quantity):
@@ -71,13 +48,6 @@ class DBUpdate(DB):
         except errors.Error as e:
             print(e)
 
-<<<<<<< HEAD
-=======
-        self.cur.execute('''INSERT INTO Ingredients_In_Recipes (food_id,recipe_id,units,quantity) VALUES({},{},'{}',{})'''. \
-                    format(foodId, recipeId, units, quantity))
-        self.conn.commit()
-        self._close_conn()
->>>>>>> home-page
 
 
     def insertFoodInKitchenStock(self,userId,foodId,units,quantity):
@@ -90,13 +60,6 @@ class DBUpdate(DB):
         except errors.Error as e:
             print(e)
 
-<<<<<<< HEAD
-=======
-        self.cur.execute('''INSERT INTO Kitchen_Stock (user_id,food_id,units,quantity) VALUES({},{},'{}',{})'''. \
-                             format(userId, foodId, units, quantity))
-        self.conn.commit()
-        self._close_conn()
->>>>>>> home-page
 
     def updateFoodInKitchenStock(self, userId, recipeId, quantity):
 
@@ -132,13 +95,6 @@ class DBUpdate(DB):
         except errors.Error as e:
             print(e)
 
-<<<<<<< HEAD
-=======
-        self.cur.execute('''INSERT INTO Meal_Plan (user_id,recipe_id,consumption_date,serving,type_of_meal) VALUES({},{},'{}','{}','{}')'''. \
-                             format(userId, recipeId, date, servings, type))
-        self.conn.commit()
-        self._close_conn()
->>>>>>> home-page
 
 
 
