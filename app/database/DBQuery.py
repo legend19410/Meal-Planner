@@ -38,16 +38,16 @@ class DBQuery(DB):
 
     def getRecipeByName(self, recipeName):
         self._start_conn()
-        self.cur.execute('''SELECT * FROM Recipe WHERE recipe_name like '%{}%' ORDER BY LIMIT 50 '''.format(recipeName))
+        self.cur.execute('''SELECT * FROM recipe WHERE recipe_name like '%{}%' ORDER BY LIMIT 50 '''.format(recipeName))
         recipes = self.cur.fetchall()
-        # self._close_conn()
+        self._close_conn()
         return recipes
 
     def getNRecipes(self, start, end):
         self._start_conn()
-        self.cur.execute('''SELECT * FROM Recipe LIMIT {},{}'''.format(start, end))
+        self.cur.execute('''SELECT * FROM recipe LIMIT {},{}'''.format(start, end))
         recipes = self.cur.fetchall()
-        # self._close_conn()
+        self._close_conn()
         return recipes
 
     def getInstructionForRecipe(self, recipeId):

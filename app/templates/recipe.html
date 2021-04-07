@@ -8,25 +8,44 @@
         {% if recipe %}
             <div class="card mb-3 recipe-card">
                 <div class="row g-0 recipe-card-row">
-                    <div class="col-md-5 recipe-card-img-container">
-                        <img class="recipe-card-img" src="{{url_for('get_image', filename=prop.photo)}}" alt="Card image cap">
+                    <div class="recipe-card-img-container">
+                        <img class="recipe-card-img" src="{{url_for('get_image', filename=recipe['recipe']['image'])}}" alt="Card image cap">
                     </div>
 
-                    <div class="col-md-7 recipe-card-body-container">
+                    <div class="recipe-card-body-container">
                         <div class="card-body recipe-card-body">
-                            <h5 class="card-title recipe-card-title">{{recipe['recipe_name']}}</h5>
+                            <h5 class="card-title recipe-card-title">{{recipe['recipe']['recipe_name']}}</h5>
                             <div class="recipe-card-price-type-container">
-                                <span class="recipe-price card-blob">{{recipe['tot_calories']}} Calories</span>
+                                <p class="recipe-calories">{{"{:.2f}".format(recipe['cal_count'])}} Calories</p>
                             </div>
 
-                            <p class="card-text recipe-card-text recipe-card-description">{{ prop.description }}</p>
+                            <div  class="recipe-section">
+                                <h4 class="recipe-card-section-heading">Ingredients</h4>
 
-                        
-                            <p class="card-text recipe-card-text recipe-card-rooms">
+                                <div class="card-text recipe-card-text recipe-card-ingredients">
+                                    {% for ingredient in recipe['ingredients'] %}
+                                        <p class="ingredient">
+                                            <span class="quantity">{{ingredient['quantity']}}</span>
+                                            <span class="units">{{ingredient['units']}}</span>
+                                            <span class="food_item">{{ingredient['food_name']}}</span>
+                                        </p>
+                                    {% endfor %}
+                                </div>
+                            </div>
 
-                            </p>
-                              
+                            <div class="recipe-section">
+                                <h4 class="recipe-card-section-heading">Instructions</h4>
 
+                                <div class="card-text recipe-card-text recipe-card-instructions">
+                                    {% for instruction in recipe['instructions'] %}
+                                        <p class="instruction">
+                                            <span class="instruction-step">Step {{instruction['step']}}</span>
+                                            <span class="instruction-step-desc">{{instruction['description']}}</span>
+                                        </p>
+                                        <hr>
+                                    {% endfor %}
+                                </div>
+                            </div>
 
                             <div class="card-footer recipe-card-footer"></div>
 
