@@ -1,8 +1,8 @@
 from mysql.connector import errors
 
 class DB:    
-    def __init__(self, mysql):
-        self.mysql = mysql
+    # def __init__(self, mysql):
+    #     self.mysql = mysql
 
     def _start_conn(self):
         try:

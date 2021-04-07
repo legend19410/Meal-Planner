@@ -4,7 +4,7 @@ from .conversions import convert
 class DBQuery(DB):
 
     def __init__(self, mysql):
-        super(DBQuery,self).__init__(DB)
+        # super(DBQuery,self).__init__(DB)
         self.mysql = mysql
 
     def getAllMeasurments(self):

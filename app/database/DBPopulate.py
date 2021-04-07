@@ -4,7 +4,8 @@ from mysql.connector import errors
 class DBPopulate(DB):
 
     def __init__(self, mysql):
-        super().__init__(mysql)
+        # super().__init__(mysql)
+        self.mysql = mysql
 
     def insertUser(self, data):
         self._start_conn()

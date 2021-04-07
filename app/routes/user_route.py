@@ -210,10 +210,12 @@ def browse_foods():
     return render_template("browse_foods.html", form=form, addform=addform,foods=foods)
 
 
-@user.route('/add_to_kitchen/<foodid>/<units>/<quantity>')
+@user.route('/add_to_kitchen/<foodid>/<units>/<quantity>', methods=['GET'])
 @login_required
 def add_to_kitchen(foodid,units,quantity):
-    update_database.insertFoodInKitchenStock(current_user.get_id(),foodid,units,quantity)
+    print("Add to Kitchen",current_user.get_id(),foodid,units,quantity)
+    # update_database.insertFoodInKitchenStock(current_user.get_id(),foodid,units,quantity)
+    return json.dumps({"success":"Adding was a success"})
 
 
 @user.route('/grocery')

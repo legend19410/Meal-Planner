@@ -31,27 +31,30 @@
                    
                     <div class="openBtn card-footer preview-card-footer">
                         <small>
-                            <button onclick="openForm()" class="btn btn-primary preview-card-btn" href="">Add to Kitchen</button> 
+                            <button  class="btn btn-primary preview-card-btn add-to-btn" href="">Add to Kitchen</button> 
                         </small>
                     </div>
                 </div>
             </div>
-            <div class="formPopup" id="popupForm">
-                <form action="/action_page.php" class="formContainer">
+            <div class="formPopup" id="popupForm-{{food['food_id']}}">
+                <div  class="formContainer">
                     <h2>Add to Kitchen</h2>
                     <div class="mb-3 control-group">
+                        {% set id = "units-{}".format(food['food_id']) %}
                         {{ addform.units.label(class="form-label") }}
-                        {{ addform.units(**{"class":"form-control", "placeholder":"Enter units"}) }}
+                        {{ addform.units(**{"class":"form-control","id":id, "placeholder":"Enter units"}) }}
                     </div>
     
                     <div class="mb-3 control-group">
+                        {% set id = "quantity-{}".format(food['food_id']) %}
                         {{ addform.quantity.label(class="form-label") }}
-                        {{ addform.quantity(**{"class":"form-control", "placeholder":"Enter quantity"}) }}
+                        {{ addform.quantity(**{"class":"form-control","id":id, "placeholder":"Enter quantity"}) }}
                     </div>
-                    <button type="submit" class="btn">Add</button>
-                    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
-                  </form>
+                    <button id="{{food['food_id']}}" class="btn addbtn">Add</button>
+                    <button class="btn btn-cancel">Close</button>
+                </div>
             </div>
+
         {% endfor %}
     {% else%}
         <p id="message">No Food Item Found</p>
