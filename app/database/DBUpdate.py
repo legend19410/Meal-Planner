@@ -9,7 +9,7 @@ class DBUpdate(DB):
 
     def insertUser(self, firstName, lastName, email, password):
         self._start_conn()
-        self.cur.execute('''INSERT INTO User (first_name,last_name,email,password) VALUES('{}','{}','{}','{}')'''. \
+        self.cur.execute('''INSERT INTO user (first_name,last_name,email,password) VALUES('{}','{}','{}','{}')'''. \
                              format(firstName, lastName, email, password))
         self.conn.commit()
 
@@ -22,7 +22,7 @@ class DBUpdate(DB):
 
     def insertInstruction(self,recipeId, step, description):
         self._start_conn()
-        self.cur.execute('''INSERT INTO Instruction (recipe_id,step,description) VALUES({},{},'{}')'''. \
+        self.cur.execute('''INSERT INTO instruction (recipe_id,step,description) VALUES({},{},'{}')'''. \
                                  format(recipeId, step, description))
         self.conn.commit()
 
@@ -30,7 +30,7 @@ class DBUpdate(DB):
     def insertIngredients(self, foodId, recipeId,units,quantity):
         self._start_conn()
 
-        self.cur.execute('''INSERT INTO Ingredients_In_Recipes (food_id,recipe_id,units,quantity) VALUES({},{},'{}',{})'''. \
+        self.cur.execute('''INSERT INTO ingredients_in_recipes (food_id,recipe_id,units,quantity) VALUES({},{},'{}',{})'''. \
                     format(foodId, recipeId, units, quantity))
         self.conn.commit()
 
@@ -38,7 +38,7 @@ class DBUpdate(DB):
     def insertFoodInKitchenStock(self,userId,foodId,units,quantity):
         self._start_conn()
 
-        self.cur.execute('''INSERT INTO Kitchen_Stock (user_id,food_id,units,quantity) VALUES({},{},'{}',{})'''. \
+        self.cur.execute('''INSERT INTO kitchen_stock (user_id,food_id,units,quantity) VALUES({},{},'{}',{})'''. \
                              format(userId, foodId, units, quantity))
         self.conn.commit()
 
@@ -46,7 +46,7 @@ class DBUpdate(DB):
 
         self._start_conn()
         try:
-            self.cur.execute('''UPDATE TABLE Kitchen_Stock SET quantity={} WHERE user_id={} AND recipe_id={}'''. \
+            self.cur.execute('''UPDATE TABLE kitchen_stock SET quantity={} WHERE user_id={} AND recipe_id={}'''. \
                              format(quantity, userId, recipeId))
             self.conn.commit()
             result = True
@@ -59,7 +59,7 @@ class DBUpdate(DB):
     def insertMeal(self, userId, recipeId, date, servings, type):
         self._start_conn()
 
-        self.cur.execute('''INSERT INTO Meal_Plan (user_id,recipe_id,consumption_date,serving,type_of_meal) VALUES({},{},'{}','{}','{}')'''. \
+        self.cur.execute('''INSERT INTO meal_plan (user_id,recipe_id,consumption_date,serving,type_of_meal) VALUES({},{},'{}','{}','{}')'''. \
                              format(userId, recipeId, date, servings, type))
         self.conn.commit()
 

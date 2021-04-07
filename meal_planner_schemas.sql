@@ -106,3 +106,34 @@ CREATE VIEW Total_Cal_Meal as(
     ) as cal_per_i
     GROUP BY recipe_id    
 );
+
+
+DELIMITER //          
+CREATE PROCEDURE getEmployees(IN user_id INT)          
+BEGIN          
+    select l.person_name, l.city 
+    from lives l 
+    join works w on l.person_name=w.person_name where w.company_name=companyName;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE procedure createRandomMealPlan()
+wholeblock:BEGIN
+   DECLARE anyVariableName1 INT ;
+   Declare anyVariableName3 int;
+   DECLARE anyVariableName2 VARCHAR(255);
+   SET anyVariableName1 =1 ;
+   SET anyVariableName3 =10;
+   SET anyVariableName2 = '';
+loop_label: FORLOOP
+   IF anyVariableName1 > anyVariableName3 THEN
+      LEAVE loop_label;
+   END IF;
+   SET anyVariableName2 = CONCAT(anyVariableName2 ,anyVariableName1 ,',');
+   SET anyVariableName1 = anyVariableName1 + 1;
+   ITERATE loop_label;
+   END FORLOOP;
+SELECT anyVariableName2;
+END//
+DELIMITER ;
