@@ -63,7 +63,7 @@ def login():
 
         if email and password:
             user = User(query_database.getUser(email=email))
-            # print(user)
+            print(user)
             if (user is not None) and (password == user.get_password()):
                 remember_me = False
 
@@ -136,7 +136,7 @@ def add_recipe():
     return render_template("input_recipe.html")
 
 
-@user.route('/meal_plan')
+@user.route('/meal_plan', methods=['GET', 'POST'])
 @login_required
 def meal_plan():
     
@@ -167,15 +167,34 @@ def meal_plan():
 
         fdb_dates.append(string)
     
-    user_id = current_user.get_id()
+    user_id = 1
+
+    if request.method == 'POST':
+        mealPlanDate = request.json['date']
+
+        breakfast = query_database.getRandomRecipe()
+        
+        if breakfast:
+            update_database.addMeal(1, breakfast['recipe']['recipe_id'], mealPlanDate, 1, 'breakfast')
+
+
+        lunch = query_database.getRandomRecipe()
+
+        if lunch:
+            update_database.addMeal(1, lunch['recipe']['recipe_id'], mealPlanDate, 1, 'lunch')
+
+
+        dinner = query_database.getRandomRecipe()
+
+        if dinner:
+            update_database.addMeal(1, dinner['recipe']['recipe_id'], mealPlanDate, 1, 'dinner')
+
     # print(fdb_dates)
     #get meals from database grouped by date
     meals=[]
     for date_ in fdb_dates:
         meals.append(query_database.getMealsForDate(user_id, date_))
 
-    # print('Meals',meals)
-    # print('User id',user_id)
     # meals = query_database.getMealPlan(user_id,startDate,endDate)
 
     return render_template("meal_plan.html", dates=f_date, fdb_dates=fdb_dates, meals=meals)
@@ -223,7 +242,6 @@ def logout():
 # the user ID stored in the session
 @login_manager.user_loader
 def load_user(id):
-    print(id)
     return User(query_database.getUser(id=id))
 
 

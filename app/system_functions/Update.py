@@ -38,5 +38,5 @@ class Update:
     def addMeal(self,userId,recipeId,consumptionDate,serving,mealType):
 
         self.dbUpdate.insertMeal(int(userId),int(recipeId),consumptionDate,serving,mealType)
-        return self.dbQuery.getMealForDate(int(userId),consumptionDate)
+        return self.dbQuery.getMealsForDate(int(userId),consumptionDate)
 

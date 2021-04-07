@@ -45,6 +45,7 @@ class Query:
 
     def getRandomRecipe(self):
         recipe = self.dbQuery.getRandomRecipe()
+        print(recipe)
         instructions = self.dbQuery.getInstructionForRecipe(int(recipe['recipe_id']))
         ingredients = self.dbQuery.getIngredientsForRecipe(int(recipe['recipe_id']))
         return {'recipe': recipe, 'cal_count': self.dbQuery.getCalCount(recipe['recipe_id']), 'instructions': instructions,\

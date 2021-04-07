@@ -76,12 +76,12 @@ class DBUpdate(DB):
             self._close_conn()
             return result
 
-    def insertMeal(self, userId, recipeId, date, servings, type):
+    def insertMeal(self, userId, recipeId, date, servings, mealType):
         try:
             self._start_conn()
 
             self.cur.execute('''INSERT INTO meal_plan (user_id,recipe_id,consumption_date,serving,type_of_meal) VALUES({},{},'{}','{}','{}')'''. \
-                                format(userId, recipeId, date, servings, type))
+                                format(userId, recipeId, date, servings, mealType))
             self.conn.commit()        
         except errors.Error as e:
             print(e)

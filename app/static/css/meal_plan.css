@@ -2,6 +2,24 @@
     margin-top: 2rem;
 }
 
+.day-plan-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.day-plan-header h4{
+    display: inline;
+}
+
+.day-plan-header .action-buttons{
+    display: flex;
+}
+
+.day-plan-header button{
+    margin: 0;
+}
+
 .card-body{
     text-align: center;
 }
