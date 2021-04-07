@@ -13,7 +13,6 @@ from ..system_functions import populate_database, query_database, update_databas
 import gc
 
 user = Blueprint("user", __name__)
-user_ = UserMixin()
 #JASON TEST routes, will soon create a blueprint for this
 @user.route('/')
 @user.route('/')
