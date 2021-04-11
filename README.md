@@ -13,3 +13,12 @@
 
 4. Open localhost:5000 and get started
 
+
+## Collaborators 
+
+- Malik Edwards
+- Milton Francis
+- Jason Hunter
+- Jason Johnson
+- Javier Bryan
+
