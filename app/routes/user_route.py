@@ -14,7 +14,7 @@ import gc
 
 user = Blueprint("user", __name__)
 #JASON TEST routes, will soon create a blueprint for this
-@user.route('/')
+
 @user.route('/')
 def index():
     form = LoginForm()
@@ -166,7 +166,7 @@ def meal_plan():
 
         fdb_dates.append(string)
     
-    user_id = 1
+    user_id = current_user.get_id()
 
     if request.method == 'POST':
         mealPlanDate = request.json['date']
@@ -174,45 +174,44 @@ def meal_plan():
         breakfast = query_database.getRandomRecipe()
 
         if breakfast:
-            update_database.addMeal(1, breakfast['recipe']['recipe_id'], mealPlanDate, 1, 'breakfast')
+            update_database.addMeal(user_id, breakfast['recipe']['recipe_id'], mealPlanDate, 1, 'breakfast')
 
 
         lunch = query_database.getRandomRecipe()
 
         if lunch:
-            update_database.addMeal(1, lunch['recipe']['recipe_id'], mealPlanDate, 1, 'lunch')
+            update_database.addMeal(user_id, lunch['recipe']['recipe_id'], mealPlanDate, 1, 'lunch')
 
 
         dinner = query_database.getRandomRecipe()
 
         if dinner:
-            update_database.addMeal(1, dinner['recipe']['recipe_id'], mealPlanDate, 1, 'dinner')
+            update_database.addMeal(user_id, dinner['recipe']['recipe_id'], mealPlanDate, 1, 'dinner')
 
     if request.method == 'DELETE':
         consumptionDate = request.json['date']
-        update_database.removeMeal(1, consumptionDate)
+        update_database.removeMeal(user_id, consumptionDate)
 
     if request.method == 'PATCH':
-        print(request.json)
         consumptionDate = request.json['date']
-        update_database.removeMeal(1, consumptionDate)
+        update_database.removeMeal(user_id, consumptionDate)
 
         breakfast = query_database.getRandomRecipe()
 
         if breakfast:
-            update_database.addMeal(1, breakfast['recipe']['recipe_id'], consumptionDate, 1, 'breakfast')
+            update_database.addMeal(user_id, breakfast['recipe']['recipe_id'], consumptionDate, 1, 'breakfast')
 
 
         lunch = query_database.getRandomRecipe()
 
         if lunch:
-            update_database.addMeal(1, lunch['recipe']['recipe_id'], consumptionDate, 1, 'lunch')
+            update_database.addMeal(user_id, lunch['recipe']['recipe_id'], consumptionDate, 1, 'lunch')
 
 
         dinner = query_database.getRandomRecipe()
 
         if dinner:
-            update_database.addMeal(1, dinner['recipe']['recipe_id'], consumptionDate, 1, 'dinner')
+            update_database.addMeal(user_id, dinner['recipe']['recipe_id'], consumptionDate, 1, 'dinner')
 
 
     # print(fdb_dates)
@@ -234,7 +233,6 @@ def browse_recipes():
         search = form.search.data
 
         recipes = query_database.getRecipeByName(search)
-        print(recipes)
 
         return render_template("browse_recipes.html", form=form, recipes=recipes)
     
@@ -291,7 +289,7 @@ def grocery():
             string += str(fdb_date.day)
 
         fdb_dates.append(string)
-
+        
     mlist = query_database.generateSupermarketList(current_user.get_id(),fdb_dates[0], fdb_dates[-1])
     print(mlist)
 
@@ -317,7 +315,6 @@ def logout():
 # the user ID stored in the session
 @login_manager.user_loader
 def load_user(id):
-    print(id)
     return User(query_database.getUser(id=id))
 
 
