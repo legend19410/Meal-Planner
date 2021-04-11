@@ -1,0 +1,104 @@
+.recipe-card-container{
+    justify-content: center;
+    margin-top: 5rem;
+}
+
+.recipe-card{
+    padding: 0;
+    min-height: 400px;
+    max-width: 800px;
+}
+
+.recipe-card-row{
+    height: 100%;
+}
+
+/* .recipe-card-img-container{
+    padding-right: 0;
+} */
+
+.recipe-card-img{
+    max-height: 400px;
+    width: 100%;
+}
+
+.recipe-card-title{
+    font-size: x-large;
+    font-weight: 600;
+    margin-bottom: 0;
+}
+
+/* .recipe-card-body-container{
+    padding-left: 1px;
+} */
+
+.recipe-card-body{
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 2rem 1.3rem 0.5rem;
+    height: 100%;
+}
+
+.recipe-type{
+    background-color: rgb(247,193, 33);
+}
+
+.recipe-card-description{
+    margin-top: 1.5rem;
+    margin-bottom: 0;
+}
+
+.recipe-card-ingredients{
+    display: grid;
+    grid-template-columns: repeat(3,auto);
+    text-decoration: wavy;
+    color:darkslategray;
+    margin-top: 1.5rem;
+}
+
+.recipe-calories{
+    margin-top: 1rem;
+    color: dimgray;
+}
+
+.recipe-section{
+    margin-top: 2rem;
+}
+
+.quantity{
+    display: inline-block;
+    min-width: 3rem;
+}
+
+.recipe-card-instructions{
+    margin-top: 1.5rem;
+}
+
+.instruction-step{
+    display: inline-block;
+    min-width: 6rem;
+}
+
+hr{
+    margin: 0;
+    border-style: solid none none;
+    border-width: 2px;
+    border-color:lightgrey;
+}
+
+.recipe-card-btn{
+    background-color: rgb(20,183, 166);
+    border-color: rgb(20,183, 166);
+}
+
+.recipe-card-btn:hover{
+    background-color: rgb(9, 146, 132);
+    border-color: rgb(9, 146, 132);;
+}
+
+.recipe-card-footer{
+    margin-top: auto;
+    /* margin-top: 1.5rem; */
+    padding: 0;
+    border: 0;
+}

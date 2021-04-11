@@ -1,0 +1,95 @@
+<div class="card-group">
+    <div class="card meal-plan-day-type">
+      <div class="card-body ">
+        <div class="meal-type-header">
+            <h5 class="card-title meal-type-title">Breakfast</h5>
+            <button class="meal-type-sync-btn" data-toggle="tooltip" data-placement="right" title="Regenerate meal"><i class="fas fa-sync-alt"></i></button>
+        </div>
+        <ul class="breakfast {{fdb_dates[i]}} meal-type-day-list">
+          {% set planned_b = namespace(status=False) %}
+          {% for meal_for_day in meals[i] %}
+            {% if meal_for_day['type_of_meal'] == 'breakfast' %}
+              {% set planned_b.status = True %}
+              <div class="meal-type-day-list-item">
+                <p class="card-text small-text"><small class="text-muted">{{meal_for_day['cal_count']}} cal</small></p>
+                <li id="{{current_user.get_id()}}/{{meal_for_day['recipe_id']}}/{{fdb_dates[i]}}" class="list-item">
+                  <img class="meal-list-img" src="{{url_for('get_image', filename=meal_for_day['image'])}}" alt="breakfast-img">
+                  <div class="meal-desc">
+                    {{meal_for_day['recipe_name']}}
+                    <small class="text-muted"><p class="meal-list-serving-text">{{meal_for_day['serving']}} serving</p></small>
+                  </div>
+                </li>
+              </div>
+            {% endif %}
+          {% endfor %}
+          {% if planned_b.status == False %}
+              <p class="card-text">No meal planned {{planned_b}}</p>
+          {% endif %}
+        </ul>
+
+    </div>
+    </div>
+
+
+    <div class="card meal-plan-day-type">
+      <div class="card-body">
+        <div class="meal-type-header">
+            <h5 class="card-title meal-type-title">Lunch</h5>
+            <button class="meal-type-sync-btn" data-toggle="tooltip" data-placement="right" title="Regenerate meal"><i class="fas fa-sync-alt"></i></button>
+        </div>
+        <ul class="lunch {{fdb_dates[i]}} meal-type-day-list">
+          {% set planned_l = namespace(status=False) %}
+          {% for meal_for_day in meals[i] %}
+            {% if meal_for_day['type_of_meal'] == 'lunch' %}
+            {% set planned_l.status = True %}
+              <div class="meal-type-day-list-item">
+                <p class="card-text small-text"><small class="text-muted">{{meal_for_day['cal_count']}} cal</small></p>
+                <li id="{{current_user.get_id()}}/{{meal_for_day['recipe_id']}}/{{fdb_dates[i]}}" class="list-item">
+                  <img class="meal-list-img" src="{{url_for('get_image', filename=meal_for_day['image'])}}" alt="lunch-img">
+                  <div class="meal-desc">
+                    {{meal_for_day['recipe_name']}}
+                    <small class="text-muted"><p class="meal-list-serving-text">{{meal_for_day['serving']}} serving</p></small>
+                  </div>
+                </li>
+              </div>
+            {% endif %}
+          {% endfor %}
+          {% if planned_l.status == False %}
+              <p class="card-text">No meal planned</p>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+
+
+    <div class="card meal-plan-day-type">
+      <div class="card-body">
+        <div class="meal-type-header">
+            <h5 class="card-title meal-type-title">Dinner</h5>
+            <button class="meal-type-sync-btn" data-toggle="tooltip" data-placement="right" title="Regenerate meal"><i class="fas fa-sync-alt"></i></button>
+        </div>
+        <ul class="dinner {{fdb_dates[i]}} meal-type-day-list">
+          {% set planned_d = namespace(status=False)%}
+          {% for meal_for_day in meals[i] %}
+            {% if meal_for_day['type_of_meal'] == 'dinner' %}
+              {% set planned_d.status =True %}
+              <div class="meal-type-day-list-item">
+                <p class="card-text small-text"><small class="text-muted">{{meal_for_day['cal_count']}} cal</small></p>
+
+                <li id="{{current_user.get_id()}}/{{meal_for_day['recipe_id']}}/{{fdb_dates[i]}}" class="list-item">
+                  <img class="meal-list-img" src="{{url_for('get_image', filename=meal_for_day['image'])}}" alt="dinner-img">
+                  <div class="meal-desc">
+                    {{meal_for_day['recipe_name']}}
+                    <small class="text-muted"><p class="meal-list-serving-text">{{meal_for_day['serving']}} serving</p></small>
+                  </div>
+                </li>
+              </div>
+            {% endif %}
+          {% endfor %}
+          {% if planned_d.status == False %}
+              <p class="card-text">No meal planned</p>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </div>

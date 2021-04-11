@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block css %}
+<link rel="stylesheet" href="/static/css/browse_recipes.css" />
+{% endblock %}
+
+{% block content %}
+
+<h2>RECIPES</h2>
+<form class="row form-container" action="{{ url_for('user.browse_recipes')}}" method="post">
+    {{ form.csrf_token }}
+    <div class="mb-3 form-search-group">
+        {{ form.search(**{"class":"form-control", "id":"search-box", "placeholder":"Search for recipe"}) }}
+        <button id="search-btn" type="submit" name="submit" class="btn btn-primary btn-block login-btn">Search</button>
+    </div>
+</form>
+
+<div class="row recipes-area">
+    {% if recipes %}
+        {% for recipe in recipes %}
+            <div class="card col-lg-3 col-md-4 col-sm-5 col-9 preview-card">
+                <img class="card-img-top" src="{{url_for('get_image', filename=recipe['image'])}}" alt="Card image cap">
+                <div class="card-body preview-card-body">
+                    <h5 class="card-title preview-card-title">{{recipe['recipe_name']}}</h5>
+
+                    <p class="card-text preview-card-text preview-card-location">
+                        {{recipe['tot_calories']}} Calories per serving
+                    </p>
+                   
+                    <div class="card-footer preview-card-footer">
+                        <small>
+                            <a class="btn btn-primary preview-card-btn" href="{{url_for('user.recipe',recipeid=recipe['recipe_id'])}}">Add to Meal Plan</a>
+                        </small>
+                        <small>
+                            <a class="btn btn-primary preview-card-btn" href="{{url_for('user.recipe',recipeid=recipe['recipe_id'])}}">View Recipe</a>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% else%}
+        <p id="message">No Recipes Found</p>
+    {% endif %}
+</div>
+
+{% endblock %}

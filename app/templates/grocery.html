@@ -1,0 +1,18 @@
+{% extends "base.html" %} 
+{% block css %}
+<link rel="stylesheet" href="/static/css/grocery.css" />
+{% endblock %}
+{% block content %}
+    <h1>Grocery</h1>
+
+    <div class="card groceries" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">Shopping List</h5>
+          <ul>
+              {% for grocery in mlist %}
+              <li>{{grocery}}</li>
+              {% endfor %}
+          </ul>
+        </div>
+      </div>
+{% endblock %}

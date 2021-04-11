@@ -1,0 +1,81 @@
+.day-plan{
+    margin-top: 2rem;
+}
+
+.day-plan-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.day-plan-header h4{
+    display: inline;
+}
+
+.day-plan-header .action-buttons{
+    display: flex;
+}
+
+.day-plan-header button{
+    margin: 0;
+}
+
+.card-body{
+    text-align: center;
+}
+
+.card-btn{
+    margin-top: 2rem;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.meal-type-header{
+    display: flex;
+    flex-direction: row;
+}
+
+.meal-type-day-list{
+    text-align: left;
+    margin-left: 0;
+    padding-left: 0;
+    list-style-type: none;
+}
+
+.meal-type-title{
+    text-align: left;
+    margin-bottom: 0;
+}
+
+.meal-type-day-list-item{
+    margin-bottom: 2rem;
+}
+
+.meal-list-img{
+    float: left;
+    border-radius: 100%;
+    width: 50px;
+    height: 50px;
+    margin-right: 0.5rem;
+}
+
+.meal-type-sync-btn{
+    display: block;
+    margin-left: auto;
+    background: none;
+    border: none;
+}
+
+.meal-type-sync-btn:hover{
+    color: lightgrey;
+}
+
+.small-text{
+    text-align: left;
+    margin-top: 0;
+}
+
+.meal-desc{
+    margin-left: 0.5rem;
+}

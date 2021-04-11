@@ -1,0 +1,38 @@
+<!--MEAL PLAN-->
+
+{% extends "base.html" %} 
+{% block css %}
+<link rel="stylesheet" href="/static/css/meal_plan.css" />
+{% endblock %}
+
+{% block content %}
+{% for i in range(7) %}
+<div id="{{1}}/{{fdb_dates[i]}}" class="card day-plan">
+  <div class="card-header">
+    <div class="day-plan-header">
+      <h4>{{dates[i]}}</h4>
+      <span class="action-buttons">
+        <button id="{{fdb_dates[i]}}-regenerate" onclick="regenerateMealPlan(event)" class="btn btn-outline-primary btn-sm card-btn"><i class="fas fa-sync-alt"></i></button>
+        <button id="{{fdb_dates[i]}}-delete" onclick="deleteMealPlan(event)" class="btn btn-outline-primary btn-sm card-btn"><i class="fas fa-trash"></i></button>
+      </span>
+    </div>
+    
+  </div>
+  <div class="card-body">
+    {% if meals[i] %}
+      {% include "meal_plan_day.html" %}
+    {% else %}
+      <p class="card-text">This day doesn't have a meal plan</p>
+      <button id="{{fdb_dates[i]}}" onclick="generateMealPlan(event)" class="btn btn-outline-primary card-btn">Generate <i class="fas fa-sync-alt"></i></button>
+
+      <button class="btn btn-outline-secondary card-btn">New Blank Plan <i class="far fa-plus-square"></i></button>
+    {% endif %}
+  </div>
+</div>
+{% endfor %}
+{% endblock %}
+
+{% block js %} 
+<script src="/static/js/meal_plan.js"></script>
+<script src="{{ url_for('static', filename='js/meal_plan_day.js') }}"></script>
+{% endblock%}

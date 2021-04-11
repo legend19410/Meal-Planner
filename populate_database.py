@@ -3,13 +3,13 @@ from faker import Faker
 import pandas as pd
 import re
 import mysql.connector
-
+import os
 
 class PopulateDatabase:
 
     def __init__(self, dbPopulate):
         self.dbPopulate = dbPopulate
-        self.NUMBER_OF_USERS = 200000
+        self.NUMBER_OF_USERS = 20
         self.units = [('gill','volume'),('teaspoon','volume'), ('tablespoon','volume'), ('ounce','mass'), ('cup','volume'),\
                         ('pint','volume'), ('quart','volume'), ('gallon','volume'), \
                         ('ml','volume'), ('litre','volume'), ('lb','mass'),('mg','mass'), ('g','mass'),('dl','mass')]
@@ -166,10 +166,10 @@ if __name__ =='__main__':
 
 
     try:
-        connection = mysql.connector.connect(host='localhost',
-                                             database='meal_planner',
-                                             user='root',
-                                             password='')
+        connection = mysql.connector.connect(host= os.environ.get('MYSQL_HOST') or 'localhost',
+                                             database= os.environ.get('MYSQL_DB') or 'meal_planner',
+                                             user= os.environ.get('MYSQL_USER') or 'root',
+                                             password= os.environ.get('MYSQL_PASSWORD') or '')
         popRec = PopulateDatabase(DBPopulate(connection))
         popRec.populateRecipes()
 

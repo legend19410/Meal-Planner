@@ -1,6 +1,24 @@
+# Files to ignore when adding and committing files to a repository
 RAW_recipes.csv
-.idea
+.DS_Store
+Thumbs.db
+
+*.py[cod]
+*$py.class
 __pycache__
+
+# virtualenv
+.venv/
+venv/
+
+# dotenv
+.env
+
+# PyCharm
+.idea
+
+# VS Code
+.vscode
+
+#db data
 meal_planner.sql
-.venv
-venv

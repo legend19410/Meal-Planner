@@ -1,0 +1,95 @@
+h2{
+    font-weight:700;
+    text-align: center;
+}
+
+.form-container{
+    justify-content: center;
+}
+
+.recipes-area{
+   justify-content: center;
+}
+
+.form-search-group{
+    display: flex;
+    flex-direction: row;
+}
+
+#search-box{
+    max-width: 500px;
+    margin-left: auto;
+}
+
+#search-btn{
+    margin-left: 1rem;
+}
+
+#message{
+    font-weight: 500;
+}
+
+.preview-card{
+    margin: 1rem;
+    padding: 0;
+    min-width: 300px;
+}
+
+img.card-img-top{
+    height: 200px;
+}
+
+.preview-card-body{
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.preview-card-title{
+    padding: 0.6rem;
+    padding-bottom: 0;
+    font-size: medium;
+    font-weight: 700;
+    margin-bottom: 0;
+}
+
+.preview-card-text{
+    padding: 0.6rem;
+}
+
+.preview-card-location{
+    margin-top: 0;
+    padding-top: 2px;
+    padding-bottom: 0;
+    font-size: smaller;
+    font-weight: 600;
+    color: lightslategrey;
+}
+
+.preview-card-price{
+    padding-top: 0;
+    margin-bottom: 1rem;
+}
+
+.preview-card-footer{
+    margin-top: auto;
+    padding: 0;
+    border: 0;
+}
+
+.preview-card-btn{
+    padding: 0;
+    width: 100%;
+    border-radius: 0;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-size: small;
+    font-weight: 700;
+    background-color:#0d6efd;
+    border-color: #fff;
+}
+
+.preview-card-btn:hover{
+    background-color: rgb(9, 146, 132);
+    border-color: rgb(9, 146, 132);;
+}
