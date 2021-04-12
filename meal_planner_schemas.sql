@@ -78,3 +78,22 @@ CREATE TABLE Kitchen_Stock(
     FOREIGN KEY(food_id) REFERENCES Food_Item(food_id),
     FOREIGN KEY(units) REFERENCES Measurement(units)
 );
+
+/* Stored procedure for getting the ingredients from a recipe*/
+DELIMITER //
+CREATE PROCEDURE get_ingredients( in id INT )
+begin
+    SELECT * FROM ingredients_in_recipes 
+    JOIN food_item ON 
+        ingredients_in_recipes.food_id=food_item.food_id 
+    WHERE ingredients_in_recipes.recipe_id=38;
+end //
+DELIMITER ;
+
+/* Stored procedure for getting the instructions from a recipe*/
+DELIMITER //
+CREATE PROCEDURE get_instructions( in id INT )
+begin
+    SELECT * FROM Instruction WHERE recipe_id=id;
+end //
+DELIMITER ;
